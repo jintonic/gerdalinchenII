@@ -1,0 +1,39 @@
+/MG/manager/mglog routine
+#/MG/manager/heprandomseed 123456
+
+/MG/processes/realm BBdecay
+/MG/processes/useNoHadPhysics true
+#/process/verbose 3
+
+/MG/geometry/GDML/sourceFile GerdalinchenII.gdml
+
+/MG/eventaction/Crystal/save tracks
+/MG/eventaction/rootfilename GerdalinchenII.root
+/MG/eventaction/reportingfrequency 1000
+
+/run/initialize
+
+#/MG/generator/select AmBe
+#/MG/generator/position 70 40 10 mm
+
+#/MG/generator/select SPS
+#/gps/particle gamma
+#/gps/position 0.0 0.0 0.0 mm
+#/gps/ang/type iso
+#/gps/energy 10 MeV
+
+#/vis/open OGLSX
+#/vis/scene/add/trajectories
+#/vis/viewer/set/viewpointVector 0 2 1
+#/vis/drawVolume
+
+/vis/open ATree
+/vis/ASCIITree/verbose 1
+/vis/drawTree
+
+/vis/open HepRepFile
+/vis/drawVolume
+/vis/viewer/refresh
+
+#/tracking/verbose 3
+#/run/beamOn 10000

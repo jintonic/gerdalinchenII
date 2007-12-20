@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gdml xmlns:gdml="http://cern.ch/2001/Schemas/GDML" 
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+      xsi:noNamespaceSchemaLocation="/remote/gx336-01/usr/gdml-2.10.0/GDMLSchema/gdml.xsd">
+  <define>
+  </define>
+
+  <materials>
+    <material name="Vacuum" Z="7">
+      <D value="1e-10"/>
+      <atom value="14.0007"/>
+    </material>
+    
+    <element name="Nitrogen" Z="7" formula="N">
+      <atom value="14.01"/>
+    </element>
+    <element name="Oxygen" Z="8" formula="O">
+      <atom value="16"/>
+    </element>
+    <material name="Air">
+      <D value="0.00129"/>
+      <fraction n="0.8" ref="Nitrogen"/>
+      <fraction n="0.2" ref="Oxygen"/>
+    </material>
+    
+    <material name="LiquidNitrogen" Z="7">
+      <D value="0.808" />
+      <atom value="14.0067"/>
+    </material>
+    
+    <material name="GaseousNitrogen" Z="7">
+      <D value="1.251e-3"/>
+      <atom value="14.0067"/>
+    </material>
+    
+    <material name="LiquidArgon" Z="18">
+      <D value="1.4"/>
+      <atom value="39.948"/>
+    </material>
+    
+    <material name="GaseousArgon" Z="18">
+      <D value="1.784e-3"/>
+      <atom value="39.948"/>
+    </material>
+    
+    <material name="Germanium" Z="32">
+      <D value="5.32"/>
+      <atom value="72.6503"/>
+    </material>
+
+    <material name="Aluminum" Z="13">
+      <D value="2.70"/>
+      <atom value="26.9815386"/>
+    </material>
+    
+    <material name="Iron" Z="26">
+      <D value="7.874"/>
+      <atom value="55.845"/>
+    </material>
+  </materials>
+  
+  <solids>
+    <tube name="sGasAr" z="202" rmax="107.5" rmin="0" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
+    <polycone name="sLAr" startphi="0" deltaphi="360" aunit="deg" lunit="mm">
+      <zplane rmin="0" rmax="246" z="0"/>
+      <zplane rmin="0" rmax="246" z="552"/>
+      <zplane rmin="0" rmax="107.5" z="626"/>
+    </polycone>
+    <polycone name="sDewarInnerShell" startphi="0" deltaphi="360" aunit="deg" lunit="mm">
+      <zplane rmin="0" rmax="248" z="0"/>
+      <zplane rmin="0" rmax="248" z="554"/>
+      <zplane rmin="0" rmax="109.5" z="628"/>
+      <zplane rmin="0" rmax="109.5" z="830"/>
+    </polycone>
+    <polycone name="sVacuumInDewar" startphi="0" deltaphi="360" aunit="deg" lunit="mm">
+      <zplane rmin="0" rmax="290" z="0"/>
+      <zplane rmin="0" rmax="290" z="767"/>
+      <zplane rmin="0" rmax="119.5" z="917"/>
+      <zplane rmin="0" rmax="119.5" z="945"/>
+    </polycone>
+    <polycone name="sDewarOuterShell" startphi="0" deltaphi="360" aunit="deg" lunit="mm">
+      <zplane rmin="0" rmax="293" z="0"/>
+      <zplane rmin="0" rmax="293" z="770"/>
+      <zplane rmin="0" rmax="122.5" z="920"/>
+      <zplane rmin="0" rmax="122.5" z="960"/>
+    </polycone>
+    <tube name="sAirInContainer" z="970" rmax="305" rmin="0" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
+    <tube name="sDewarContainer" z="974" rmax="306" rmin="0" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
+    <box name="sAirInCage" x="796" y="796" z="2196" lunit="mm"/>
+    <box name="sFaradayCage" x="800" y="800" z="2200" lunit="mm"/>
+    <box name="sWorld" x="1200" y="1200" z="2400" lunit="mm"/>
+  </solids>
+  
+  <structure>
+    <volume name="GasAr">
+      <materialref ref="GaseousArgon"/>
+      <solidref ref="sGasAr"/>
+    </volume>
+    
+    <volume name="LAr">
+      <materialref ref="LiquidArgon"/>
+      <solidref ref="sLAr"/>
+    </volume>
+    
+    <volume name="DewarInnerShell">
+      <materialref ref="Aluminum"/>
+      <solidref ref="sDewarInnerShell"/>
+      <physvol>
+	<volumeref ref="GasAr"/>
+	<position name="pGasAr" x="0" y="0" z="729" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="LAr"/>
+	<position name="pLAr" x="0" y="0" z="2" unit="mm"/>
+      </physvol>
+    </volume>
+    
+    <volume name="VacuumInDewar">
+      <materialref ref="Vacuum"/>
+      <solidref ref="sVacuumInDewar"/>
+      <physvol>
+	<volumeref ref="DewarInnerShell"/>
+	<position name="pDewarInnerShell" x="0" y="0" z="115" unit="mm"/>
+      </physvol>
+    </volume>
+    
+    <volume name="DewarOuterShell">
+      <materialref ref="Aluminum"/>
+      <solidref ref="sDewarOuterShell"/>
+      <physvol>
+	<volumeref ref="VacuumInDewar"/>
+	<position name="pVacuumInDewar" x="0" y="0" z="3" unit="mm"/>
+      </physvol>
+    </volume>
+    
+    <volume name="AirInContainer">
+      <materialref ref="Air"/>
+      <solidref ref="sAirInContainer"/>
+      <physvol>
+	<volumeref ref="DewarOuterShell"/>
+	<position name="pDewarOuterShell" x="0" y="0" z="-481" unit="mm"/>
+      </physvol>
+    </volume>
+    
+    <volume name="DewarContainer">
+      <materialref ref="Iron"/>
+      <solidref ref="sDewarContainer"/>
+      <physvol>
+	<volumeref ref="AirInContainer"/>
+	<position name="pAirInContainer" x="0" y="0" z="0" unit="mm"/>
+      </physvol>
+    </volume>
+    
+    <volume name="AirInCage">
+      <materialref ref="Air"/>
+      <solidref ref="sAirInCage"/>
+      <physvol>
+	<volumeref ref="DewarContainer"/>
+	<position name="pDewarContainer" x="0" y="0" z="-611.5" unit="mm"/>
+      </physvol>
+    </volume>
+    
+    <volume name="FaradayCage">
+      <materialref ref="Aluminum"/>
+      <solidref ref="sFaradayCage"/>
+      <physvol>
+	<volumeref ref="AirInCage"/>
+	<position name="pAirInCage" x="0" y="0" z="0" unit="mm"/>
+      </physvol>
+    </volume>
+    
+    <volume name="World">
+      <materialref ref="Air"/>
+      <solidref ref="sWorld"/>
+      <physvol>
+	<volumeref ref="FaradayCage"/>
+	<position name="pFaradayCage" x="0" y="0" z="0" unit="mm"/>
+      </physvol>
+    </volume>
+  </structure>
+  
+  <setup name="Default" version="1.0">
+    <world ref="FaradayCage"/>
+  </setup>
+</gdml>
