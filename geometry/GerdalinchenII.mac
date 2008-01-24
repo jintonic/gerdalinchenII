@@ -27,13 +27,14 @@
 #/vis/viewer/set/viewpointVector 0 2 1
 #/vis/drawVolume
 
-/vis/open ATree
-/vis/ASCIITree/verbose 1
-/vis/drawTree
+#/vis/open ATree
+#/vis/ASCIITree/verbose 1
+#/vis/drawTree
 
 /vis/open HepRepFile
 /vis/drawVolume
-/vis/viewer/refresh
+/vis/scene/add/axes 0 0 0 1 m
+/vis/viewer/flush
 
 #/tracking/verbose 3
 #/run/beamOn 10000

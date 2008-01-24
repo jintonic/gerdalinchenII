@@ -6,17 +6,33 @@
   </define>
 
   <materials>
+    <element Z="7" formula="N" name="Nitrogen">
+      <atom value="14.01"/>
+    </element>
+    <element Z="8" formula="O" name="Oxygen">
+      <atom value="16"/>
+    </element>
+    <element Z="14" formula="Si" name="Silicon">
+      <atom value="28.09"/>
+    </element>
+    <element Z="24" formula="Cr" name="Chromium">
+      <atom value="51.9961"/>
+    </element>
+    <element Z="25" formula="Mn" name="Manganese">
+      <atom value="54.9381"/>
+    </element>
+    <element Z="26" formula="Fe" name="Iron">
+      <atom value="55.845" />
+    </element>
+    <element Z="28" formula="Ni" name="Nickel">
+      <atom value="58.6934"/>
+    </element>
+
     <material name="Vacuum" Z="7">
       <D value="1e-10"/>
       <atom value="14.0007"/>
     </material>
     
-    <element name="Nitrogen" Z="7" formula="N">
-      <atom value="14.01"/>
-    </element>
-    <element name="Oxygen" Z="8" formula="O">
-      <atom value="16"/>
-    </element>
     <material name="Air">
       <D value="0.00129"/>
       <fraction n="0.8" ref="Nitrogen"/>
@@ -43,25 +59,61 @@
       <atom value="39.948"/>
     </material>
     
-    <material name="Germanium" Z="32">
+    <material name="NaturalGe" Z="32">
       <D value="5.32"/>
       <atom value="72.6503"/>
     </material>
 
-    <material name="Aluminum" Z="13">
+    <material name="AluminumAlloy" Z="13">
       <D value="2.70"/>
       <atom value="26.9815386"/>
     </material>
     
-    <material name="Iron" Z="26">
+    <material name="MetalIron" Z="26">
       <D value="7.874"/>
       <atom value="55.845"/>
+    </material>
+
+    <material name="MetalCopper" Z="29">
+      <D value="8.96"/>
+      <atom value="63.55"/>
+    </material>
+
+    <material name="StainlessSteel304">
+      <D value="8.0"/>
+      <fraction n="0.02" ref="Manganese"/>
+      <fraction n="0.01" ref="Silicon"/>
+      <fraction n="0.2" ref="Chromium"/>
+      <fraction n="0.1" ref="Nickel"/>
+      <fraction n="0.67" ref="Iron"/>
     </material>
   </materials>
   
   <solids>
-    <tube name="sGasAr" z="202" rmax="107.5" rmin="0" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
-    <polycone name="sLAr" startphi="0" deltaphi="360" aunit="deg" lunit="mm">
+    <tube name="sBaseplateTube" z="3" rmax="40" rmin="0" lunit="mm" startphi="90" deltaphi="180" aunit="degree"/>
+    <box name="sBaseplateBox" x="32" y="80" z="3" lunit="mm"/>
+    <union name="sDetectorBaseplate">
+      <first ref="sBaseplateTube"/>
+      <second ref="sBaseplateBox"/>
+      <position name="pBaseplateBoxToTube" x="16" y="0" z="0" unit="mm"/>
+    </union>
+    <box name="sLowerSupporterSideBar" x="20" y="8" z="86" lunit="mm"/>
+    <box name="sLowerSupporterBottom" x="90" y="8" z="5" lunit="mm"/>
+    <union name="sDetectorLowerSupporter">
+      <first ref="sLowerSupporterSideBar"/>
+      <second ref="sLowerSupporterBottom"/>
+      <position name="pLowerSupporterBottomToSideBar" x="-55" y="0" z="-40.5" unit="mm"/>
+    </union>
+    <box name="bHoldingRailOut" x="20" y="20" z="580" lunit="mm"/> 
+    <box name="bHoldingRailIn" x="16" y="16" z="580" lunit="mm"/>
+    <subtraction name="sDetectorHoldingRail">
+      <first ref="bHoldingRailOut"/>
+      <second ref="bHoldingRailIn"/>
+    </subtraction>
+    <tube name="sTubularIRsheild" z="150" rmax="85" rmin="84.2" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
+    <tube name="sPlatelikeIRsheild" z="1" rmax="235" rmin="100" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
+    <tube name="sCoolingGas" z="202" rmax="107.5" rmin="0" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
+    <polycone name="sCoolingLiquid" startphi="0" deltaphi="360" aunit="deg" lunit="mm">
       <zplane rmin="0" rmax="246" z="0"/>
       <zplane rmin="0" rmax="246" z="552"/>
       <zplane rmin="0" rmax="107.5" z="626"/>
@@ -92,26 +144,87 @@
   </solids>
   
   <structure>
-    <volume name="GasAr">
-      <materialref ref="GaseousArgon"/>
-      <solidref ref="sGasAr"/>
+    <volume name="DetectorBaseplate">		      
+      <materialref ref="MetalCopper"/>
+      <solidref ref="sDetectorBaseplate"/>
     </volume>
     
-    <volume name="LAr">
-      <materialref ref="LiquidArgon"/>
-      <solidref ref="sLAr"/>
+    <volume name="DetectorLowerSupporter">		      
+      <materialref ref="MetalCopper"/>
+      <solidref ref="sDetectorLowerSupporter"/>
+    </volume>
+    
+    <volume name="DetectorHoldingRail">
+      <materialref ref="StainlessSteel304"/>
+      <solidref ref="sDetectorHoldingRail"/>
+    </volume>
+    
+    <volume name="TubularIRsheild">
+      <materialref ref="MetalCopper"/>
+      <solidref ref="sTubularIRsheild"/>
+    </volume>
+    
+    <volume name="PlatelikeIRsheild">
+      <materialref ref="MetalCopper"/>
+      <solidref ref="sPlatelikeIRsheild"/>
+    </volume>
+    
+    <volume name="CoolingLiquid">
+      <materialref ref="LiquidNitrogen"/>
+      <solidref ref="sCoolingLiquid"/>
+      <physvol>
+	<volumeref ref="TubularIRsheild"/>
+	<position name="pTubularIRsheild" x="0" y="0" z="483" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="PlatelikeIRsheild"/>
+	<position name="pPlatelikeIRsheild" x="0" y="0" z="551" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="DetectorHoldingRail"/>
+	<position name="pDetectorHoldingRail" x="62.5" y="17" z="336" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="DetectorLowerSupporter"/>
+	<position name="pDetectorLowerSupporter1" x="62.5" y="0" z="360" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="DetectorLowerSupporter"/>
+	<position name="pDetectorLowerSupporter2" x="62.5" y="0" z="230" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="DetectorLowerSupporter"/>
+	<position name="pDetectorLowerSupporter3" x="62.5" y="0" z="100" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="DetectorBaseplate"/>
+	<position name="pDetectorBaseplate1" x="0" y="0" z="323.5" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="DetectorBaseplate"/>
+	<position name="pDetectorBaseplate2" x="0" y="0" z="193.5" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="DetectorBaseplate"/>
+	<position name="pDetectorBaseplate3" x="0" y="0" z="63.5" unit="mm"/>
+      </physvol>
+    </volume>
+    
+    <volume name="CoolingGas">
+      <materialref ref="GaseousNitrogen"/>
+      <solidref ref="sCoolingGas"/>
     </volume>
     
     <volume name="DewarInnerShell">
-      <materialref ref="Aluminum"/>
+      <materialref ref="AluminumAlloy"/>
       <solidref ref="sDewarInnerShell"/>
       <physvol>
-	<volumeref ref="GasAr"/>
-	<position name="pGasAr" x="0" y="0" z="729" unit="mm"/>
+	<volumeref ref="CoolingGas"/>
+	<position name="pCoolingGas" x="0" y="0" z="729" unit="mm"/>
       </physvol>
       <physvol>
-	<volumeref ref="LAr"/>
-	<position name="pLAr" x="0" y="0" z="2" unit="mm"/>
+	<volumeref ref="CoolingLiquid"/>
+	<position name="pCoolingLiquid" x="0" y="0" z="2" unit="mm"/>
       </physvol>
     </volume>
     
@@ -125,7 +238,7 @@
     </volume>
     
     <volume name="DewarOuterShell">
-      <materialref ref="Aluminum"/>
+      <materialref ref="AluminumAlloy"/>
       <solidref ref="sDewarOuterShell"/>
       <physvol>
 	<volumeref ref="VacuumInDewar"/>
@@ -143,7 +256,7 @@
     </volume>
     
     <volume name="DewarContainer">
-      <materialref ref="Iron"/>
+      <materialref ref="MetalIron"/>
       <solidref ref="sDewarContainer"/>
       <physvol>
 	<volumeref ref="AirInContainer"/>
@@ -156,12 +269,12 @@
       <solidref ref="sAirInCage"/>
       <physvol>
 	<volumeref ref="DewarContainer"/>
-	<position name="pDewarContainer" x="0" y="0" z="-611.5" unit="mm"/>
+	<position name="pDewarContainer" x="0" y="0" z="-611" unit="mm"/>
       </physvol>
     </volume>
     
     <volume name="FaradayCage">
-      <materialref ref="Aluminum"/>
+      <materialref ref="AluminumAlloy"/>
       <solidref ref="sFaradayCage"/>
       <physvol>
 	<volumeref ref="AirInCage"/>
@@ -180,6 +293,6 @@
   </structure>
   
   <setup name="Default" version="1.0">
-    <world ref="FaradayCage"/>
+    <world ref="World"/>
   </setup>
 </gdml>
