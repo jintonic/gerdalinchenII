@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gdml xmlns:gdml="http://cern.ch/2001/Schemas/GDML" 
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-      xsi:noNamespaceSchemaLocation="/remote/gx336-01/usr/gdml-2.10.0/GDMLSchema/gdml.xsd">
+      xsi:noNamespaceSchemaLocation="/afs/ipp/mpp/gerda/soft/gdml-2.10.0/schema/gdml.xsd">
   <define>
   </define>
 
@@ -90,34 +90,59 @@
   </materials>
   
   <solids>
-    <tube name="sBaseplateTube" z="3" rmax="40" rmin="0" lunit="mm" startphi="90" deltaphi="180" aunit="degree"/>
-    <box name="sBaseplateBox" x="32" y="80" z="3" lunit="mm"/>
-    <union name="sDetectorBaseplate">
-      <first ref="sBaseplateTube"/>
-      <second ref="sBaseplateBox"/>
-      <position name="pBaseplateBoxToTube" x="16" y="0" z="0" unit="mm"/>
+    <box name="sSiegfriedSupporterSide" x="16" y="8" z="116" lunit="mm"/>
+    <box name="sSiegfriedSupporterTop" x="61" y="6" z="6" lunit="mm"/>
+    <box name="sSiegfriedSupporterBottom" x="61" y="8" z="24" lunit="mm"/>
+    <box name="sSiegfriedSupporterClip" x="41" y="40" z="9.8" lunit="mm"/>
+    <union name="sSiegfriedSupporterST">
+      <first ref="sSiegfriedSupporterSide"/>
+      <second ref="sSiegfriedSupporterTop"/>
+      <position name="pSiegfriedSupporterTopToSide" x="-38.5" y="0" z="55" unit="mm"/>
     </union>
-    <box name="sLowerSupporterSideBar" x="20" y="8" z="86" lunit="mm"/>
-    <box name="sLowerSupporterBottom" x="90" y="8" z="5" lunit="mm"/>
-    <union name="sDetectorLowerSupporter">
-      <first ref="sLowerSupporterSideBar"/>
-      <second ref="sLowerSupporterBottom"/>
-      <position name="pLowerSupporterBottomToSideBar" x="-55" y="0" z="-40.5" unit="mm"/>
+    <union name="sSiegfriedSupporterSTB">
+      <first ref="sSiegfriedSupporterST"/>
+      <second ref="sSiegfriedSupporterBottom"/>
+      <position name="pSiegfriedSupporterBottomToSide" x="-38.5" y="0" z="-46" unit="mm"/>
     </union>
+    <union name="sSiegfriedSupporter">
+      <first ref="sSiegfriedSupporterSTB"/>
+      <second ref="sSiegfriedSupporterClip"/>
+      <position name="pSiegfriedSupporterClipToSide" x="-86" y="0" z="-39.1" unit="mm"/>
+    </union>
+
+    <box name="sSmallIRsheildBox" x="50" y="80" z="3" lunit="mm"/>
+    <tube name="sSmallIRsheildTube" z="3" rmax="40" rmin="0" lunit="mm" startphi="90" deltaphi="180" aunit="degree"/>
+    <union name="sSmallIRsheild">
+      <first ref="sSmallIRsheildBox"/>
+      <second ref="sSmallIRsheildTube"/>
+      <position name="pSmallIRsheildTubeToBox" x="-25" y="0" z="0" unit="mm"/>
+    </union>
+
+    <box name="sSmallIRsheildHolderSideBar" x="20" y="8" z="86" lunit="mm"/>
+    <box name="sSmallIRsheildHolderBottom" x="90" y="8" z="5" lunit="mm"/>
+    <union name="sSmallIRsheildHolder">
+      <first ref="sSmallIRsheildHolderSideBar"/>
+      <second ref="sSmallIRsheildHolderBottom"/>
+      <position name="pSmallIRsheildHolderBottomToSideBar" x="-55" y="0" z="-40.5" unit="mm"/>
+    </union>
+
     <box name="bHoldingRailOut" x="20" y="20" z="580" lunit="mm"/> 
     <box name="bHoldingRailIn" x="16" y="16" z="580" lunit="mm"/>
     <subtraction name="sDetectorHoldingRail">
       <first ref="bHoldingRailOut"/>
       <second ref="bHoldingRailIn"/>
     </subtraction>
+
     <tube name="sTubularIRsheild" z="150" rmax="85" rmin="84.2" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
     <tube name="sPlatelikeIRsheild" z="1" rmax="235" rmin="100" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
+
     <tube name="sCoolingGas" z="202" rmax="107.5" rmin="0" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
     <polycone name="sCoolingLiquid" startphi="0" deltaphi="360" aunit="deg" lunit="mm">
       <zplane rmin="0" rmax="246" z="0"/>
       <zplane rmin="0" rmax="246" z="552"/>
       <zplane rmin="0" rmax="107.5" z="626"/>
     </polycone>
+
     <polycone name="sDewarInnerShell" startphi="0" deltaphi="360" aunit="deg" lunit="mm">
       <zplane rmin="0" rmax="248" z="0"/>
       <zplane rmin="0" rmax="248" z="554"/>
@@ -136,22 +161,30 @@
       <zplane rmin="0" rmax="122.5" z="920"/>
       <zplane rmin="0" rmax="122.5" z="960"/>
     </polycone>
+
     <tube name="sAirInContainer" z="970" rmax="305" rmin="0" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
     <tube name="sDewarContainer" z="974" rmax="306" rmin="0" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
+
     <box name="sAirInCage" x="796" y="796" z="2196" lunit="mm"/>
     <box name="sFaradayCage" x="800" y="800" z="2200" lunit="mm"/>
+
     <box name="sWorld" x="1200" y="1200" z="2400" lunit="mm"/>
   </solids>
   
   <structure>
-    <volume name="DetectorBaseplate">		      
+    <volume name="SiegfriedSupporter">		      
       <materialref ref="MetalCopper"/>
-      <solidref ref="sDetectorBaseplate"/>
+      <solidref ref="sSiegfriedSupporter"/>
     </volume>
     
-    <volume name="DetectorLowerSupporter">		      
+    <volume name="SmallIRsheild">		      
       <materialref ref="MetalCopper"/>
-      <solidref ref="sDetectorLowerSupporter"/>
+      <solidref ref="sSmallIRsheild"/>
+    </volume>
+    
+    <volume name="SmallIRsheildHolder">		      
+      <materialref ref="MetalCopper"/>
+      <solidref ref="sSmallIRsheildHolder"/>
     </volume>
     
     <volume name="DetectorHoldingRail">
@@ -185,28 +218,24 @@
 	<position name="pDetectorHoldingRail" x="62.5" y="17" z="336" unit="mm"/>
       </physvol>
       <physvol>
-	<volumeref ref="DetectorLowerSupporter"/>
-	<position name="pDetectorLowerSupporter1" x="62.5" y="0" z="360" unit="mm"/>
+	<volumeref ref="SmallIRsheildHolder"/>
+	<position name="pSmallIRsheildHolder" x="62.5" y="0" z="490" unit="mm"/>
       </physvol>
       <physvol>
-	<volumeref ref="DetectorLowerSupporter"/>
-	<position name="pDetectorLowerSupporter2" x="62.5" y="0" z="230" unit="mm"/>
+	<volumeref ref="SmallIRsheild"/>
+	<position name="pSmallIRsheild" x="25" y="0" z="453.5" unit="mm"/>
       </physvol>
       <physvol>
-	<volumeref ref="DetectorLowerSupporter"/>
-	<position name="pDetectorLowerSupporter3" x="62.5" y="0" z="100" unit="mm"/>
+	<volumeref ref="SiegfriedSupporter"/>
+	<position name="pSiegfriedSupporter1" x="62.5" y="0" z="360" unit="mm"/>
       </physvol>
       <physvol>
-	<volumeref ref="DetectorBaseplate"/>
-	<position name="pDetectorBaseplate1" x="0" y="0" z="323.5" unit="mm"/>
+	<volumeref ref="SiegfriedSupporter"/>
+	<position name="pSiegfriedSupporter2" x="62.5" y="0" z="230" unit="mm"/>
       </physvol>
       <physvol>
-	<volumeref ref="DetectorBaseplate"/>
-	<position name="pDetectorBaseplate2" x="0" y="0" z="193.5" unit="mm"/>
-      </physvol>
-      <physvol>
-	<volumeref ref="DetectorBaseplate"/>
-	<position name="pDetectorBaseplate3" x="0" y="0" z="63.5" unit="mm"/>
+	<volumeref ref="SiegfriedSupporter"/>
+	<position name="pSiegfriedSupporter3" x="62.5" y="0" z="100" unit="mm"/>
       </physvol>
     </volume>
     
@@ -293,6 +322,6 @@
   </structure>
   
   <setup name="Default" version="1.0">
-    <world ref="World"/>
+    <world ref="CoolingLiquid"/>
   </setup>
 </gdml>
