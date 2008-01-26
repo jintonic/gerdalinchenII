@@ -3,9 +3,18 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
       xsi:noNamespaceSchemaLocation="/afs/ipp/mpp/gerda/soft/gdml-2.10.0/schema/gdml.xsd">
   <define>
+    <variable name="Detector1CenterZ" value="368"/>
+    <variable name="Detector2CenterZ" value="238"/>
+    <variable name="Detector3CenterZ" value="108"/>
   </define>
 
   <materials>
+    <element Z="1" formula="H" name="Hydrogen">
+      <atom value="1.00794"/>
+    </element>
+    <element Z="6" formula="C" name="Carbon">
+      <atom value="12.011"/>
+    </element>
     <element Z="7" formula="N" name="Nitrogen">
       <atom value="14.01"/>
     </element>
@@ -87,13 +96,45 @@
       <fraction n="0.1" ref="Nickel"/>
       <fraction n="0.67" ref="Iron"/>
     </material>
+
+    <material name="Kapton">
+      <D value="1.53"/>
+      <fraction n="0.813474" ref="Carbon"/>
+      <fraction n="0.0307193" ref="Hydrogen"/>
+      <fraction n="0.108364" ref="Oxygen"/>
+      <fraction n="0.047443" ref="Nitrogen"/>
+    </material>
   </materials>
   
   <solids>
+    <tube name="sSiegfried" z="70" rmax="37.5" rmin="5" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
+	  
+    <tube name="sSiegfriedKaptonCable" z="12" rmax="37.726" rmin="37.701" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
+
+    <box name="sSiegfriedHolderUpperBar" x="6" y="91" z="2" lunit="mm"/>
+    <box name="sSiegfriedHolderLowerBar" x="4" y="89" z="3" lunit="mm"/>
+    <tube name="sSiegfriedHolderSideBar" z="120" rmax="0.9" rmin="0" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
+    <union name="sSiegfriedHolderBar">
+      <first ref="sSiegfriedHolderUpperBar"/>
+      <second ref="sSiegfriedHolderLowerBar"/>
+      <position name="pHolderLowerBarToUpper" x="0" y="0" z="-86.5" unit="mm"/>
+    </union>
+    <union name="sSiegfriedHolderBarLeftSide">
+      <first ref="sSiegfriedHolderBar"/>
+      <second ref="sSiegfriedHolderSideBar"/>
+      <position name="pHolderLeftSideToBar" x="0" y="-42.5" z="-39" unit="mm"/>
+    </union>
+    <union name="sSiegfriedHolder">
+      <first ref="sSiegfriedHolderBarLeftSide"/>
+      <second ref="sSiegfriedHolderSideBar"/>
+      <position name="pHolderRightSideToBar" x="0" y="42.5" z="-39" unit="mm"/>
+    </union>
+
     <box name="sSiegfriedSupporterSide" x="16" y="8" z="116" lunit="mm"/>
     <box name="sSiegfriedSupporterTop" x="61" y="6" z="6" lunit="mm"/>
     <box name="sSiegfriedSupporterBottom" x="61" y="8" z="24" lunit="mm"/>
-    <box name="sSiegfriedSupporterClip" x="41" y="40" z="9.8" lunit="mm"/>
+    <box name="sSiegfriedSupporterClip" x="45" y="40" z="10" lunit="mm"/>
+    <box name="sSiegfriedSupporterSlot" x="4" y="40" z="3" lunit="mm"/>
     <union name="sSiegfriedSupporterST">
       <first ref="sSiegfriedSupporterSide"/>
       <second ref="sSiegfriedSupporterTop"/>
@@ -104,11 +145,16 @@
       <second ref="sSiegfriedSupporterBottom"/>
       <position name="pSiegfriedSupporterBottomToSide" x="-38.5" y="0" z="-46" unit="mm"/>
     </union>
-    <union name="sSiegfriedSupporter">
+    <union name="sSiegfriedSupporterSTBC">
       <first ref="sSiegfriedSupporterSTB"/>
       <second ref="sSiegfriedSupporterClip"/>
-      <position name="pSiegfriedSupporterClipToSide" x="-86" y="0" z="-39.1" unit="mm"/>
+      <position name="pSiegfriedSupporterClipToSide" x="-80.5" y="0" z="-39" unit="mm"/>
     </union>
+    <subtraction name="sSiegfriedSupporter">
+      <first ref="sSiegfriedSupporterSTBC"/>
+      <second ref="sSiegfriedSupporterSlot"/>
+      <position name="pSiegfriedSupporterSlotToSide" x="-65" y="0" z="-35.5" unit="mm"/>
+    </subtraction>
 
     <box name="sSmallIRsheildBox" x="50" y="80" z="3" lunit="mm"/>
     <tube name="sSmallIRsheildTube" z="3" rmax="40" rmin="0" lunit="mm" startphi="90" deltaphi="180" aunit="degree"/>
@@ -172,11 +218,26 @@
   </solids>
   
   <structure>
+    <volume name="sensitive_Siegfried">		      
+      <materialref ref="NaturalGe"/>
+      <solidref ref="sSiegfried"/>
+    </volume>
+    
+    <volume name="SiegfriedKaptonCable">		      
+      <materialref ref="Kapton"/>
+      <solidref ref="sSiegfriedKaptonCable"/>
+    </volume>
+    
     <volume name="SiegfriedSupporter">		      
       <materialref ref="MetalCopper"/>
       <solidref ref="sSiegfriedSupporter"/>
     </volume>
     
+    <volume name="SiegfriedHolder">		      
+      <materialref ref="MetalCopper"/>
+      <solidref ref="sSiegfriedHolder"/>
+    </volume>
+
     <volume name="SmallIRsheild">		      
       <materialref ref="MetalCopper"/>
       <solidref ref="sSmallIRsheild"/>
@@ -206,6 +267,19 @@
       <materialref ref="LiquidNitrogen"/>
       <solidref ref="sCoolingLiquid"/>
       <physvol>
+	<volumeref ref="sensitive_Siegfried"/>
+	<position name="pSiegfried1" x="0" y="0" z="Detector1CenterZ" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="sensitive_Siegfried"/>
+	<position name="pSiegfried2" x="0" y="0" z="Detector2CenterZ" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="sensitive_Siegfried"/>
+	<position name="pSiegfried3" x="0" y="0" z="Detector3CenterZ" unit="mm"/>
+      </physvol>
+
+      <physvol>
 	<volumeref ref="TubularIRsheild"/>
 	<position name="pTubularIRsheild" x="0" y="0" z="483" unit="mm"/>
       </physvol>
@@ -214,28 +288,42 @@
 	<position name="pPlatelikeIRsheild" x="0" y="0" z="551" unit="mm"/>
       </physvol>
       <physvol>
-	<volumeref ref="DetectorHoldingRail"/>
-	<position name="pDetectorHoldingRail" x="62.5" y="17" z="336" unit="mm"/>
-      </physvol>
-      <physvol>
 	<volumeref ref="SmallIRsheildHolder"/>
-	<position name="pSmallIRsheildHolder" x="62.5" y="0" z="490" unit="mm"/>
+	<position name="pSmallIRsheildHolder" x="65" y="0" z="490" unit="mm"/>
       </physvol>
       <physvol>
 	<volumeref ref="SmallIRsheild"/>
 	<position name="pSmallIRsheild" x="25" y="0" z="453.5" unit="mm"/>
       </physvol>
+
+      <physvol>
+	<volumeref ref="DetectorHoldingRail"/>
+	<position name="pDetectorHoldingRail" x="65" y="17" z="336" unit="mm"/>
+      </physvol>
+
       <physvol>
 	<volumeref ref="SiegfriedSupporter"/>
-	<position name="pSiegfriedSupporter1" x="62.5" y="0" z="360" unit="mm"/>
+	<position name="pSiegfriedSupporter1" x="65" y="0" z="360" unit="mm"/>
       </physvol>
       <physvol>
 	<volumeref ref="SiegfriedSupporter"/>
-	<position name="pSiegfriedSupporter2" x="62.5" y="0" z="230" unit="mm"/>
+	<position name="pSiegfriedSupporter2" x="65" y="0" z="230" unit="mm"/>
       </physvol>
       <physvol>
 	<volumeref ref="SiegfriedSupporter"/>
-	<position name="pSiegfriedSupporter3" x="62.5" y="0" z="100" unit="mm"/>
+	<position name="pSiegfriedSupporter3" x="65" y="0" z="100" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="SiegfriedHolder"/>
+	<position name="pSiegfriedHolder1" x="0" y="0" z="411" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="SiegfriedHolder"/>
+	<position name="pSiegfriedHolder2" x="0" y="0" z="281" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="SiegfriedHolder"/>
+	<position name="pSiegfriedHolder3" x="0" y="0" z="151" unit="mm"/>
       </physvol>
     </volume>
     
@@ -322,6 +410,6 @@
   </structure>
   
   <setup name="Default" version="1.0">
-    <world ref="CoolingLiquid"/>
+    <world ref="World"/>
   </setup>
 </gdml>
