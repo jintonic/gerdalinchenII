@@ -1,5 +1,4 @@
 /MG/manager/mglog routine
-#/MG/manager/heprandomseed 123456
 
 /MG/processes/realm BBdecay
 /MG/processes/useNoHadPhysics true
@@ -7,7 +6,7 @@
 
 /MG/geometry/GDML/sourceFile GerdalinchenII.gdml
 
-/MG/eventaction/Crystal/save tracks
+/MG/eventaction/Crystal/save all
 /MG/eventaction/rootfilename GerdalinchenII.root
 /MG/eventaction/reportingfrequency 1000
 
@@ -22,19 +21,50 @@
 #/gps/ang/type iso
 #/gps/energy 10 MeV
 
-#/vis/open OGLSX
+#/vis/open OGLSXm
 #/vis/scene/add/trajectories
 #/vis/viewer/set/viewpointVector 0 2 1
 #/vis/drawVolume
 
 #/vis/open ATree
+#/vis/scene/create
 #/vis/ASCIITree/verbose 1
 #/vis/drawTree
 
 /vis/open HepRepFile
+/vis/geometry/set/colour FaradayCage	 	0 0.6 0.6 0.6
+/vis/geometry/set/colour AirInCage	 	0 0.6 0.6 0.6
+
+/vis/geometry/set/colour DewarContainer	 	0 0.6 0.6 0.6
+/vis/geometry/set/colour AirInContainer	 	0 0.6 0.6 0.6
+
+/vis/geometry/set/colour DewarOuterShell 	0 0.5 0.5 0.5
+/vis/geometry/set/colour VacuumInDewar 		0 0.5 0.5 0.5
+/vis/geometry/set/colour DewarInnerShell 	0 0.5 0.5 0.5
+
+/vis/geometry/set/colour CoolingLiquid	 	0 0.4 0.6 1.0
+/vis/geometry/set/colour CoolingGas	 	0 0.8 1.0 1.0
+
+/vis/geometry/set/colour SmallIRsheild 		0 0.8 0.4 0.2
+/vis/geometry/set/colour TubularIRsheild 	0 0.8 0.4 0.2
+/vis/geometry/set/colour PlatelikeIRsheild 	0 0.8 0.4 0.2
+
+/vis/geometry/set/colour DetectorHoldingRail 	0 0.6 0.6 0.6
+
+/vis/geometry/set/colour SiegfriedSupporter 	0 1.0 0.8 0.0
+/vis/geometry/set/colour SmallIRsheildHolder 	0 1.0 0.8 0.0
+
+/vis/geometry/set/colour SiegfriedHolder 	0 0.8 0.6 0.0
+
+/vis/geometry/set/colour sensitive_Siegfried 	0 1.0 0.4 0.0
 /vis/drawVolume
 /vis/scene/add/axes 0 0 0 1 m
 /vis/viewer/flush
+
+#/vis/open HepRepXML
+#/vis/drawVolume
+#/vis/scene/add/axes 0 0 0 1 m
+#/vis/viewer/flush
 
 #/tracking/verbose 3
 #/run/beamOn 10000
