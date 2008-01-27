@@ -1,7 +1,7 @@
 /MG/manager/mglog routine
 
 /MG/processes/realm BBdecay
-/MG/processes/useNoHadPhysics true
+#/MG/processes/useNoHadPhysics true
 #/process/verbose 3
 
 /MG/geometry/GDML/sourceFile GerdalinchenII.gdml
@@ -12,26 +12,26 @@
 
 /run/initialize
 
+#/material/nist/listMaterials
+
 #/MG/generator/select AmBe
 #/MG/generator/position 70 40 10 mm
 
-#/MG/generator/select SPS
-#/gps/particle gamma
-#/gps/position 0.0 0.0 0.0 mm
+/MG/generator/select SPS
+/gps/particle ion 
+#gamma
+/gps/ion 98 252 0
+/gps/position -600.1 0.0 -730.0 mm
 #/gps/ang/type iso
-#/gps/energy 10 MeV
+/gps/ang/mintheta 50
+/gps/ang/maxtheta 130
+/gps/ang/minphi -40
+/gps/ang/maxphi 40
+/gps/energy 0 MeV
 
-#/vis/open OGLSXm
-#/vis/scene/add/trajectories
-#/vis/viewer/set/viewpointVector 0 2 1
-#/vis/drawVolume
+/vis/geometry/set/colour LeadBricks	 	0 0.6 0.6 0.6
+/vis/geometry/set/colour NeutronModerationBlock 0 1.0 1.0 1.0
 
-#/vis/open ATree
-#/vis/scene/create
-#/vis/ASCIITree/verbose 1
-#/vis/drawTree
-
-/vis/open HepRepFile
 /vis/geometry/set/colour FaradayCage	 	0 0.6 0.6 0.6
 /vis/geometry/set/colour AirInCage	 	0 0.6 0.6 0.6
 
@@ -57,6 +57,19 @@
 /vis/geometry/set/colour SiegfriedHolder 	0 0.8 0.6 0.0
 
 /vis/geometry/set/colour sensitive_Siegfried 	0 1.0 0.4 0.0
+
+#/vis/open OGLIX
+#/vis/scene/create
+#/vis/scene/add/trajectories
+#/vis/viewer/set/viewpointVector 0 -1 0
+#/vis/drawVolume
+
+#/vis/open ATree
+#/vis/scene/create
+#/vis/ASCIITree/verbose 1
+#/vis/drawTree
+
+/vis/open HepRepFile
 /vis/drawVolume
 /vis/scene/add/axes 0 0 0 1 m
 /vis/viewer/flush
@@ -67,4 +80,4 @@
 #/vis/viewer/flush
 
 #/tracking/verbose 3
-#/run/beamOn 10000
+/run/beamOn 10
