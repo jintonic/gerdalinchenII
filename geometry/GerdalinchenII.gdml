@@ -36,6 +36,9 @@
     <element Z="28" formula="Ni" name="Nickel">
       <atom value="58.6934"/>
     </element>
+    <element Z="82" formula="Pb" name="Lead">
+      <atom value="207.2"/>
+    </element>
 
     <material name="Vacuum" Z="7">
       <D value="1e-10"/>
@@ -88,6 +91,11 @@
       <atom value="63.55"/>
     </material>
 
+    <material name="MetalLead" Z="82">
+      <D value="11.34"/>
+      <atom value="207.2"/>
+    </material>
+
     <material name="StainlessSteel304">
       <D value="8.0"/>
       <fraction n="0.02" ref="Manganese"/>
@@ -104,9 +112,18 @@
       <fraction n="0.108364" ref="Oxygen"/>
       <fraction n="0.047443" ref="Nitrogen"/>
     </material>
+
+    <material name="Paraffin">
+      <D value="0.93"/>
+      <fraction n="0.851395" ref="Carbon"/>
+      <fraction n="0.148605" ref="Hydrogen"/>
+    </material>
   </materials>
   
   <solids>
+    <box name="sLeadBricks" x="100" y="300" z="300" lunit="mm"/>
+    <box name="sNeutronModerationBlock" x="100" y="300" z="300" lunit="mm"/>
+
     <tube name="sSiegfried" z="70" rmax="37.5" rmin="5" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
 	  
     <tube name="sSiegfriedKaptonCable" z="12" rmax="37.726" rmin="37.701" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
@@ -214,10 +231,20 @@
     <box name="sAirInCage" x="796" y="796" z="2196" lunit="mm"/>
     <box name="sFaradayCage" x="800" y="800" z="2200" lunit="mm"/>
 
-    <box name="sWorld" x="1200" y="1200" z="2400" lunit="mm"/>
+    <box name="sWorld" x="1400" y="1000" z="2400" lunit="mm"/>
   </solids>
   
   <structure>
+    <volume name="LeadBricks">		      
+      <materialref ref="MetalLead"/>
+      <solidref ref="sLeadBricks"/>
+    </volume>
+    
+    <volume name="NeutronModerationBlock">		      
+      <materialref ref="Paraffin"/>
+      <solidref ref="sNeutronModerationBlock"/>
+    </volume>
+    
     <volume name="sensitive_Siegfried">		      
       <materialref ref="NaturalGe"/>
       <solidref ref="sSiegfried"/>
@@ -405,6 +432,14 @@
       <physvol>
 	<volumeref ref="FaradayCage"/>
 	<position name="pFaradayCage" x="0" y="0" z="0" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="LeadBricks"/>
+	<position name="pLeadBricks" x="-450" y="0" z="-730" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="NeutronModerationBlock"/>
+	<position name="pNeutronModerationBlock" x="-550" y="0" z="-730" unit="mm"/>
       </physvol>
     </volume>
   </structure>
