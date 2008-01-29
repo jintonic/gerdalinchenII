@@ -25,7 +25,7 @@ void Ba133()
          if (segEnergy[1][j]>5) {
             Nseg += 1;
          }
-         if (Nseg==1) singleSeg->Fill(segEnergy[1][0]);
+         if (Nseg==1) singleSeg->Fill(smearE(segEnergy[1][0]));
        
       }
    }
@@ -34,5 +34,16 @@ void Ba133()
    f1->cd();
    singleSeg->Write();
    f1->Close();
+}
+
+Double_t smearE(Double_t E)
+{
+   Double_t sig= (1.30511+0.000995415*E*1000)/2.355; //FWHM/2.35=Sigma
+   
+   //because sig is too small, 
+   //we *100 & /100 to avoid strange things happen during the calculation:
+   Double_t dE = gRandom -> Gaus(0.0, sig*100.0)/100.0; 
+   
+   return E*1000+dE;
 }
 
