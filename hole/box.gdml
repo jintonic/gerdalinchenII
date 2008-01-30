@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<gdml xmlns:gdml="http://cern.ch/2001/Schemas/GDML" 
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+      xsi:noNamespaceSchemaLocation="/afs/ipp-garching.mpg.de/mpp/gerda/soft/gdml-2.10.0/schema/gdml.xsd">
+
+ <define>
+ </define>
+
+ <materials>
+  <material Z="7" formula=" " name="Vacuum" >
+   <D value="1e-10" />
+   <atom value="14.0007" />
+  </material>
+
+  <material Z="32" formula=" " name="NaturalGe" >
+   <D value="5.32" />
+   <atom value="72.6503" />
+  </material>
+  <material Z="5" formula=" " name="NaturalB" >
+   <D value="2.34" />
+   <atom value="10.811" />
+  </material>
+  <material Z="3" formula=" " name="NaturalLi" >
+   <D value="0.534" />
+   <atom value="6.941" />
+  </material>
+  <material Z="7" formula=" " name="LN2" >
+   <D value="0.808" />
+   <atom value="14.01" />
+  </material>
+  <element Z="14" formula="Si" name="Silicon" >
+   <atom value="28.09" />
+  </element>
+  <element Z="24" formula="Cr" name="Chromium" >
+   <atom value="51.9961" />
+  </element>
+  <element Z="25" formula="Mn" name="Manganese" >
+   <atom value="54.9381" />
+  </element>
+  <element Z="28" formula="Ni" name="Nickel" >
+   <atom value="58.6934" />
+  </element>
+  <element Z="26" formula="Fe" name="Iron" >
+   <atom value="55.845" />
+  </element>
+  <material formula=" " name="Steel" >
+   <D value="7.9" />
+   <fraction n="0.01" ref="Silicon" />
+   <fraction n="0.2" ref="Chromium" />
+   <fraction n="0.02" ref="Manganese" />
+   <fraction n="0.67" ref="Iron" />
+   <fraction n="0.1" ref="Nickel" />
+  </material>
+</materials>
+
+ <solids>
+  <box name="sWorld" x="1000" y="1000" z="1000" lunit="mm" />
+  <box name="sBrick" x="50" y="50" z="500" lunit="mm" />
+ </solids>
+
+ <structure>
+  <volume name="sensitive_brick" >
+   <materialref ref="Steel" />
+   <solidref ref="sBrick" />
+  </volume>
+
+  <volume name="World" >
+   <materialref ref="Vacuum" />
+   <solidref ref="sWorld" />
+   <physvol>
+    <volumeref ref="sensitive_brick" />
+    <position name="pbrick" unit="mm" x="0" y="0" z="250" />
+   </physvol>
+  </volume>
+ </structure>
+
+ <setup name="Default" version="1.0" >
+  <world ref="World" />
+ </setup>
+
+</gdml>
