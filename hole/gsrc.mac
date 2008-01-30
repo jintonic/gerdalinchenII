@@ -4,25 +4,24 @@
 /MG/processes/useNoHadPhysics true
 #/process/verbose 3
 
-/MG/geometry/GDML/sourceFile Siegfried.gdml
+/MG/geometry/GDML/sourceFile box.gdml
 
-/MG/eventaction/Crystal/save all
-/MG/eventaction/rootfilename Ba133.root
+/MG/eventaction/Crystal/save hit
+/MG/eventaction/rootfilename gamma.root
 /MG/eventaction/reportingfrequency 1000
 
 /run/initialize
 
 /MG/generator/select SPS
-/gps/particle ion
-#/gps/ion 63 152 0
-#/gps/ion 56 133 0
-#/gps/ion 95 243 0
-#/gps/ion 27 57 0
-#/gps/ion 48 109 0
-/gps/ion 56 133 0
-/gps/position 0.0 0.0 0.0 mm
-/gps/ang/type iso
-/gps/energy 0 keV
+/gps/particle gamma
+/gps/position 0.0 0.0 -0.1 mm
+/gps/direction 0 0 1
+/gps/energy 50 keV
+#/gps/ene/type Lin
+#/gps/ene/min 50 keV
+#/gps/ene/max 200 keV
+#/gps/gradient 1
+#/gps/intercept 1
 
 #/MG/generator/select AmBe
 #/MG/generator/position 70 40 10 mm
@@ -36,9 +35,9 @@
 /vis/ASCIITree/verbose 2
 /vis/drawTree
 
-#/vis/open HepRepFile
-#/vis/drawVolume
-#/vis/viewer/refresh
+/vis/open HepRepFile
+/vis/drawVolume
+/vis/viewer/refresh
 
 #/tracking/verbose 3
-/run/beamOn 100000
+/run/beamOn 10
