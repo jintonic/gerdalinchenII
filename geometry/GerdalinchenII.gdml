@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gdml xmlns:gdml="http://cern.ch/2001/Schemas/GDML" 
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-      xsi:noNamespaceSchemaLocation="/afs/ipp/mpp/gerda/soft/gdml-2.10.0/schema/gdml.xsd">
+      xsi:noNamespaceSchemaLocation="/remote/gx336-01/usr/gdml-2.10.0/GDMLSchema/gdml.xsd">
   <define>
+    <variable name="CollimatorCenterZ" value="238"/>
+    <variable name="CollimatorAngle" value="-15"/>
     <variable name="Detector1CenterZ" value="368"/>
     <variable name="Detector2CenterZ" value="238"/>
     <variable name="Detector3CenterZ" value="108"/>
@@ -21,6 +23,9 @@
     <element Z="8" formula="O" name="Oxygen">
       <atom value="16"/>
     </element>
+    <element Z="9" formula="F" name="Fluorine">
+      <atom value="19"/>
+    </element>
     <element Z="14" formula="Si" name="Silicon">
       <atom value="28.09"/>
     </element>
@@ -35,6 +40,9 @@
     </element>
     <element Z="28" formula="Ni" name="Nickel">
       <atom value="58.6934"/>
+    </element>
+    <element Z="29" formula="Cu" name="Copper">
+      <atom value="63.5463"/>
     </element>
     <element Z="82" formula="Pb" name="Lead">
       <atom value="207.2"/>
@@ -88,7 +96,12 @@
 
     <material name="MetalCopper" Z="29">
       <D value="8.96"/>
-      <atom value="63.55"/>
+      <atom value="63.5463"/>
+    </material>
+
+    <material name="MetalTungsten" Z="74">
+      <D value="19.25"/>
+      <atom value="182.3"/>
     </material>
 
     <material name="MetalLead" Z="82">
@@ -100,19 +113,34 @@
       <D value="8.0"/>
       <fraction n="0.02" ref="Manganese"/>
       <fraction n="0.01" ref="Silicon"/>
-      <fraction n="0.2" ref="Chromium"/>
-      <fraction n="0.1" ref="Nickel"/>
+      <fraction n="0.20" ref="Chromium"/>
+      <fraction n="0.10" ref="Nickel"/>
       <fraction n="0.67" ref="Iron"/>
     </material>
 
     <material name="Kapton">
       <D value="1.53"/>
       <fraction n="0.813474" ref="Carbon"/>
-      <fraction n="0.0307193" ref="Hydrogen"/>
+      <fraction n="0.030719" ref="Hydrogen"/>
       <fraction n="0.108364" ref="Oxygen"/>
       <fraction n="0.047443" ref="Nitrogen"/>
     </material>
+    
+    <material name="KaptonCopper">
+      <D value="5.245"/>
+      <fraction n="0.406737" ref="Carbon"/>
+      <fraction n="0.015360" ref="Hydrogen"/>
+      <fraction n="0.054182" ref="Oxygen"/>
+      <fraction n="0.023721" ref="Nitrogen"/>
+      <fraction n="0.5" ref="Copper"/>
+    </material>
 
+    <material name="Teflon">
+      <D value="2.165"/>
+      <fraction n="0.76" ref="Fluorine"/>
+      <fraction n="0.24" ref="Carbon"/>
+    </material>
+  
     <material name="Paraffin">
       <D value="0.93"/>
       <fraction n="0.851395" ref="Carbon"/>
@@ -124,10 +152,189 @@
     <box name="sLeadBricks" x="100" y="300" z="300" lunit="mm"/>
     <box name="sNeutronModerationBlock" x="100" y="300" z="300" lunit="mm"/>
 
+    <trd name="sCollimatorBase" x1="24" x2="24" y1="34" y2="10" z="33" lunit="mm"/>
+    <tube name="sCollimatorHole" z="33" rmax="0.5" rmin="0" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
+    <tube name="sCollimatorSHole" z="30" rmax="4" rmin="0" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
+    <subtraction name="sCollimatorBSH">
+      <first ref="sCollimatorBase"/>
+      <second ref="sCollimatorHole"/>
+      <position name="pCollimatorHoleToBase" x="0" y="0" z="-2" unit="mm"/>
+    </subtraction>   
+    <subtraction name="sCollimator">
+      <first ref="sCollimatorBSH"/>
+      <second ref="sCollimatorSHole"/>
+      <position name="pCollimatorSHToBase" x="0" y="0" z="11.5" unit="mm"/>
+      <rotation name="rCollimatorSHToBase" x="0" y="90" z="0" unit="degree"/>
+    </subtraction>
+
+    <box name="sCollimatorHandleBar" x="12" y="12" z="33" lunit="mm"/>
+    <tube name="sSourceHolder" z="30" rmax="3.2" rmin="0" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>  
+    <union name="sCollimatorHandle">
+      <first ref="sCollimatorHandleBar"/>
+      <second ref="sSourceHolder"/>
+      <position name="pSourceHolderToHandleBar" x="-8" y="0" z="11.5" unit="mm"/>
+      <rotation name="rSourceHolderToHandleBar" x="0" y="90" z="0" unit="degree"/>
+    </union>
+
     <tube name="sSiegfried" z="70" rmax="37.5" rmin="5" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
 	  
-    <tube name="sSiegfriedKaptonCable" z="12" rmax="37.726" rmin="37.701" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
+    <tube name="sSiegfriedSignalCableGuideTube" z="12" rmax="37.726" rmin="37.701" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
+    <tube name="sSiegfriedSignalCableGuideBigHole" z="7" rmax="37.727" rmin="37.7" lunit="mm" startphi="109" deltaphi="22" aunit="degree"/>
+    <tube name="sSiegfriedSignalCableGuideSmallHole" z="7" rmax="37.727" rmin="37.7" lunit="mm" startphi="120" deltaphi="13.7" aunit="degree"/>
+    <subtraction name="sSiegfriedSignalCableGuideTS1SH">
+      <first ref="sSiegfriedSignalCableGuideTube"/>
+      <second ref="sSiegfriedSignalCableGuideSmallHole"/>
+      <rotation name="rSiegfriedSignalCableGuideSH1ToT" x="0" y="0" z="-147.4" unit="degree"/>
+    </subtraction>    
+    <subtraction name="sSiegfriedSignalCableGuideTS2SH">
+      <first ref="sSiegfriedSignalCableGuideTS1SH"/>
+      <second ref="sSiegfriedSignalCableGuideSmallHole"/>
+      <rotation name="rSiegfriedSignalCableGuideSH2ToT" x="0" y="0" z="-87.4" unit="degree"/>
+    </subtraction>    
+    <subtraction name="sSiegfriedSignalCableGuideTS3SH">
+      <first ref="sSiegfriedSignalCableGuideTS2SH"/>
+      <second ref="sSiegfriedSignalCableGuideSmallHole"/>
+      <rotation name="rSiegfriedSignalCableGuideSH3ToT" x="0" y="0" z="-27.4" unit="degree"/>
+    </subtraction>    
+    <subtraction name="sSiegfriedSignalCableGuideTS4SH">
+      <first ref="sSiegfriedSignalCableGuideTS3SH"/>
+      <second ref="sSiegfriedSignalCableGuideSmallHole"/>
+      <rotation name="rSiegfriedSignalCableGuideSH4ToT" x="0" y="0" z="13.7" unit="degree"/>
+    </subtraction>    
+    <subtraction name="sSiegfriedSignalCableGuideTS5SH">
+      <first ref="sSiegfriedSignalCableGuideTS4SH"/>
+      <second ref="sSiegfriedSignalCableGuideSmallHole"/>
+      <rotation name="rSiegfriedSignalCableGuideSH5ToT" x="0" y="0" z="73.7" unit="degree"/>
+    </subtraction>    
+    <subtraction name="sSiegfriedSignalCableGuideTS6SH">
+      <first ref="sSiegfriedSignalCableGuideTS5SH"/>
+      <second ref="sSiegfriedSignalCableGuideSmallHole"/>
+      <rotation name="rSiegfriedSignalCableGuideSH6ToT" x="0" y="0" z="133.7" unit="degree"/>
+    </subtraction>    
+    <subtraction name="sSiegfriedSignalCableGuideTS1BH">
+      <first ref="sSiegfriedSignalCableGuideTS6SH"/>
+      <second ref="sSiegfriedSignalCableGuideBigHole"/>
+      <rotation name="rSiegfriedSignalCableGuideBH1ToT" x="0" y="0" z="-115" unit="degree"/>
+    </subtraction>    
+    <subtraction name="sSiegfriedSignalCableGuideTS2BH">
+      <first ref="sSiegfriedSignalCableGuideTS1BH"/>
+      <second ref="sSiegfriedSignalCableGuideBigHole"/>
+      <rotation name="rSiegfriedSignalCableGuideBH2ToT" x="0" y="0" z="-55" unit="degree"/>
+    </subtraction>    
+    <subtraction name="sSiegfriedSignalCableGuideTS3BH">
+      <first ref="sSiegfriedSignalCableGuideTS2BH"/>
+      <second ref="sSiegfriedSignalCableGuideBigHole"/>
+      <rotation name="rSiegfriedSignalCableGuideBH3ToT" x="0" y="0" z="55" unit="degree"/>
+    </subtraction>    
+    <subtraction name="sSiegfriedSignalCableGuideTS4BH">
+      <first ref="sSiegfriedSignalCableGuideTS3BH"/>
+      <second ref="sSiegfriedSignalCableGuideBigHole"/>
+      <rotation name="rSiegfriedSignalCableGuideBH4ToT" x="0" y="0" z="115" unit="degree"/>
+    </subtraction>    
+    <union name="sSiegfriedSignalCableGuide2T">
+      <first ref="sSiegfriedSignalCableGuideTS4BH"/>
+      <second ref="sSiegfriedSignalCableGuideTS4BH"/>
+      <position name="pSiegfriedSignalCableGuideUTToMT" x="0" y="0" z="23.333" unit="mm"/>
+    </union>
+    <union name="sSiegfriedSignalCableGuide">
+      <first ref="sSiegfriedSignalCableGuide2T"/>
+      <second ref="sSiegfriedSignalCableGuideTS4BH"/>
+      <position name="pSiegfriedSignalCableGuideLTToMT" x="0" y="0" z="-23.333" unit="mm"/>
+    </union>
+    
+    <tube name="sSiegfriedSignalCableS" z="0.3" rmax="37.761" rmin="37.726" lunit="mm" startphi="85" deltaphi="70" aunit="degree"/>
+    <tube name="sSiegfriedSignalCableM" z="0.3" rmax="37.761" rmin="37.726" lunit="mm" startphi="26" deltaphi="188" aunit="degree"/>
+    <tube name="sSiegfriedSignalCableL" z="0.3" rmax="37.761" rmin="37.726" lunit="mm" startphi="-34" deltaphi="308" aunit="degree"/>
+    <union name="sSiegfriedSignalCableSM">
+      <first ref="sSiegfriedSignalCableM"/>
+      <second ref="sSiegfriedSignalCableS"/>
+      <position name="pSiegfriedSignalCableSToM" x="0" y="0" z="-0.6" unit="mm"/>
+    </union>
+    <union name="sSiegfriedSignalCableSML">
+      <first ref="sSiegfriedSignalCableSM"/>
+      <second ref="sSiegfriedSignalCableL"/>
+      <position name="pSiegfriedSignalCableLToM" x="0" y="0" z="0.6" unit="mm"/>
+    </union>    
+    <union name="sSiegfriedSignalCable2">
+      <first ref="sSiegfriedSignalCableSML"/>
+      <second ref="sSiegfriedSignalCableSML"/>
+      <position name="pSiegfriedSignalCableUpperToM" x="0" y="0" z="23.333" unit="mm"/>
+    </union>    
+    <union name="sSiegfriedSignalCable">
+      <first ref="sSiegfriedSignalCable2"/>
+      <second ref="sSiegfriedSignalCableSML"/>
+      <position name="pSiegfriedSignalCableLowerToM" x="0" y="0" z="-23.333" unit="mm"/>
+    </union>    
+    
+    <tube name="sSiegfriedSignalContactPad" z="5" rmax="37.55" rmin="37.5" lunit="mm" startphi="146" deltaphi="14" aunit="degree"/>
+    <union name="sSiegfriedSignalContact2Pads">
+      <first ref="sSiegfriedSignalContactPad"/>
+      <second ref="sSiegfriedSignalContactPad"/>
+      <rotation name="rSiegfriedSignalContactPad2To1" x="0" y="0" z="60" unit="degree"/>
+    </union>     
+    <union name="sSiegfriedSignalContact3Pads">
+      <first ref="sSiegfriedSignalContact2Pads"/>
+      <second ref="sSiegfriedSignalContactPad"/>
+      <rotation name="rSiegfriedSignalContactPad3To1" x="0" y="0" z="120" unit="degree"/>
+    </union>     
+    <union name="sSiegfriedSignalContact6Pads">
+      <first ref="sSiegfriedSignalContact3Pads"/>
+      <second ref="sSiegfriedSignalContact3Pads"/>
+      <rotation name="rSiegfriedSignalContactPad6To1" x="0" y="0" z="-186" unit="degree"/>
+    </union>     
+    <union name="sSiegfriedSignalContact12Pads">
+      <first ref="sSiegfriedSignalContact6Pads"/>
+      <second ref="sSiegfriedSignalContact6Pads"/>
+      <position name="pSiegfriedSignalContactPadUToM" x="0" y="0" z="23.333" unit="mm"/>
+    </union>     
+    <union name="sSiegfriedSignalContact">
+      <first ref="sSiegfriedSignalContact12Pads"/>
+      <second ref="sSiegfriedSignalContact6Pads"/>
+      <position name="pSiegfriedSignalContactPadLToM" x="0" y="0" z="-23.333" unit="mm"/>
+    </union>     
+        
+    <tube name="sSiegfriedUpperTeflonHolderTube" z="12" rmax="5" rmin="2.5" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
+    <tube name="sSiegfriedUpperTeflonHolderRing" z="2"  rmax="7" rmin="3.5" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
+    <union name="sSiegfriedUpperTeflonHolder">
+      <first ref="sSiegfriedUpperTeflonHolderTube"/>
+      <second ref="sSiegfriedUpperTeflonHolderRing"/>
+      <position name="pUpperTeflenHolderRingToTube" x="0" y="0" z="0" unit="mm"/>
+    </union>
 
+    <tube name="sSiegfriedLowerTeflonHolderTube" z="14" rmax="5" rmin="2.5" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
+    <tube name="sSiegfriedLowerTeflonHolderRing" z="2"  rmax="7" rmin="3.5" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
+    <union name="sSiegfriedLowerTeflonHolder">
+      <first ref="sSiegfriedLowerTeflonHolderTube"/>
+      <second ref="sSiegfriedLowerTeflonHolderRing"/>
+      <position name="pLowerTeflenHolderRingToTube" x="0" y="0" z="-1" unit="mm"/>
+    </union>
+
+    <tube name="sSiegfriedSignalCableHolderTubs1" z="1.5" rmax="35.4" rmin="29" lunit="mm" startphi="84" deltaphi="36" aunit="degree"/>
+    <tube name="sSiegfriedSignalCableHolderTubs2" z="1.6" rmax="36.7" rmin="35" lunit="mm" startphi="110" deltaphi="20" aunit="degree"/>
+    <tube name="sSiegfriedSignalCableHolderTubs3" z="4" rmax="37.4" rmin="36.6" lunit="mm" startphi="105" deltaphi="30" aunit="degree"/>
+    <box  name="sSiegfriedSignalCableHolderBox1" x="7" y="7" z="1" lunit="mm"/>
+    <union name="sSiegfriedSignalCableHolderTubs12">
+      <first ref="sSiegfriedSignalCableHolderTubs1"/>
+      <second ref="sSiegfriedSignalCableHolderTubs2"/>
+    </union>
+    <union name="sSiegfriedSignalCableHolder123">
+      <first ref="sSiegfriedSignalCableHolderTubs12"/>
+      <second ref="sSiegfriedSignalCableHolderTubs3"/>
+    </union>
+    <subtraction name="sSiegfriedSignalCableHolder">
+      <first ref="sSiegfriedSignalCableHolder123"/>
+      <second ref="sSiegfriedSignalCableHolderBox1"/>
+      <position name="pSiegfriedSignalCableHolderBox1To123" x="0" y="32" z="-0.75" unit="mm"/>
+    </subtraction>
+
+    <tube name="sSiegfriedHVCableHolderTub" z="4" rmax="41.25" rmin="39.75" lunit="mm" startphi="-123" deltaphi="78" aunit="degree"/>
+    <box  name="sSiegfriedHVCableHolderBox" x="8" y="3" z="10" lunit="mm"/>
+    <union name="sSiegfriedHVCableHolder">
+      <first ref="sSiegfriedHVCableHolderTub"/>
+      <second ref="sSiegfriedHVCableHolderBox"/>
+      <position name="pSiegfriedHVCableHolderBToT" x="0" y="-39.25" z="5" unit="mm"/>
+    </union>
+ 
     <box name="sSiegfriedHolderUpperBar" x="6" y="91" z="2" lunit="mm"/>
     <box name="sSiegfriedHolderLowerBar" x="4" y="89" z="3" lunit="mm"/>
     <tube name="sSiegfriedHolderSideBar" z="120" rmax="0.9" rmin="0" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
@@ -147,54 +354,77 @@
       <position name="pHolderRightSideToBar" x="0" y="42.5" z="-39" unit="mm"/>
     </union>
 
-    <box name="sSiegfriedSupporterSide" x="16" y="8" z="116" lunit="mm"/>
-    <box name="sSiegfriedSupporterTop" x="61" y="6" z="6" lunit="mm"/>
-    <box name="sSiegfriedSupporterBottom" x="61" y="8" z="24" lunit="mm"/>
-    <box name="sSiegfriedSupporterClip" x="45" y="40" z="10" lunit="mm"/>
-    <box name="sSiegfriedSupporterSlot" x="4" y="40" z="3" lunit="mm"/>
+    <box name="sSiegfriedSupporterSide" x="18" y="7.9" z="116.1" lunit="mm"/>
+    <box name="sSiegfriedSupporterTop" x="60" y="6" z="6" lunit="mm"/>
+    <box name="sSiegfriedSupporterBottom" x="60" y="8" z="24" lunit="mm"/>
+    <box name="sSiegfriedSupporterClip" x="45" y="40" z="9.8" lunit="mm"/>
+    <box name="sSiegfriedSupporterSlot" x="4" y="42" z="6" lunit="mm"/>
     <union name="sSiegfriedSupporterST">
       <first ref="sSiegfriedSupporterSide"/>
       <second ref="sSiegfriedSupporterTop"/>
-      <position name="pSiegfriedSupporterTopToSide" x="-38.5" y="0" z="55" unit="mm"/>
+      <position name="pSiegfriedSupporterTopToSide" x="-38" y="0" z="55" unit="mm"/>
     </union>
     <union name="sSiegfriedSupporterSTB">
       <first ref="sSiegfriedSupporterST"/>
       <second ref="sSiegfriedSupporterBottom"/>
-      <position name="pSiegfriedSupporterBottomToSide" x="-38.5" y="0" z="-46" unit="mm"/>
+      <position name="pSiegfriedSupporterBottomToSide" x="-38" y="0" z="-46" unit="mm"/>
     </union>
     <union name="sSiegfriedSupporterSTBC">
       <first ref="sSiegfriedSupporterSTB"/>
       <second ref="sSiegfriedSupporterClip"/>
-      <position name="pSiegfriedSupporterClipToSide" x="-80.5" y="0" z="-39" unit="mm"/>
+      <position name="pSiegfriedSupporterClipToSide" x="-79.5" y="0" z="-39.1" unit="mm"/>
     </union>
     <subtraction name="sSiegfriedSupporter">
       <first ref="sSiegfriedSupporterSTBC"/>
       <second ref="sSiegfriedSupporterSlot"/>
-      <position name="pSiegfriedSupporterSlotToSide" x="-65" y="0" z="-35.5" unit="mm"/>
+      <position name="pSiegfriedSupporterSlotToSide" x="-64" y="0" z="-34" unit="mm"/>
     </subtraction>
-
-    <box name="sSmallIRsheildBox" x="50" y="80" z="3" lunit="mm"/>
-    <tube name="sSmallIRsheildTube" z="3" rmax="40" rmin="0" lunit="mm" startphi="90" deltaphi="180" aunit="degree"/>
-    <union name="sSmallIRsheild">
-      <first ref="sSmallIRsheildBox"/>
-      <second ref="sSmallIRsheildTube"/>
-      <position name="pSmallIRsheildTubeToBox" x="-25" y="0" z="0" unit="mm"/>
+    
+    <box name="sSiegfriedSupporterScrewNutBase" x="14" y="3" z="14" lunit="mm"/>
+    <tube name="sSiegfriedSupporterScrewNutM" z="16" rmax="3.3" rmin="0" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
+    <tube name="sSiegfriedSupporterScrewNutI" z="8" rmax="6" rmin="0" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
+    <tube name="sSiegfriedSupporterScrewNutO" z="16" rmax="7" rmin="0" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
+    <union name="sSiegfriedSupporterScrewNutBM">
+      <first ref="sSiegfriedSupporterScrewNutBase"/>
+      <second ref="sSiegfriedSupporterScrewNutM"/>
+      <position name="pSiegfriedSupporterScrewNutMToB" x="0" y="11.5" z="0" unit="mm"/>
+      <rotation name="rSiegfriedSupporterScrewNutMToB" x="90" y="0" z="0" unit="degree"/>
+    </union>
+    <union name="sSiegfriedSupporterScrewNutBMI">
+      <first ref="sSiegfriedSupporterScrewNutBM"/>
+      <second ref="sSiegfriedSupporterScrewNutI"/>
+      <position name="pSiegfriedSupporterScrewNutIToB" x="0" y="25.5" z="0" unit="mm"/>
+      <rotation name="rSiegfriedSupporterScrewNutIToB" x="90" y="0" z="0" unit="degree"/>
+    </union>
+    <union name="sSiegfriedSupporterScrewNuts">
+      <first ref="sSiegfriedSupporterScrewNutBMI"/>
+      <second ref="sSiegfriedSupporterScrewNutO"/>
+      <position name="pSiegfriedSupporterScrewNutOToB" x="0" y="-17.5" z="0" unit="mm"/>
+      <rotation name="rSiegfriedSupporterScrewNutOToB" x="90" y="0" z="0" unit="degree"/>
     </union>
 
-    <box name="sSmallIRsheildHolderSideBar" x="20" y="8" z="86" lunit="mm"/>
+    <box name="bHoldingRailOut" x="20" y="20" z="580" lunit="mm"/> 
+    <box name="bHoldingRailIn" x="16" y="16" z="590" lunit="mm"/>
+    <subtraction name="sDetectorHoldingRail">
+      <first ref="bHoldingRailOut"/>
+      <second ref="bHoldingRailIn"/>
+    </subtraction>
+
+    <tube name="sSmallIRsheildTube" z="3" rmax="40" rmin="0" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
+    <box name="sSmallIRsheildBox" x="50" y="80.1" z="2.9" lunit="mm"/>
+    <union name="sSmallIRsheild">
+      <first ref="sSmallIRsheildTube"/>
+      <second ref="sSmallIRsheildBox"/>
+      <position name="pSmallIRsheildBoxToTube" x="25" y="0" z="0" unit="mm"/>
+    </union>
+
+    <box name="sSmallIRsheildHolderSideBar" x="20.1" y="8.1" z="86.1" lunit="mm"/>
     <box name="sSmallIRsheildHolderBottom" x="90" y="8" z="5" lunit="mm"/>
     <union name="sSmallIRsheildHolder">
       <first ref="sSmallIRsheildHolderSideBar"/>
       <second ref="sSmallIRsheildHolderBottom"/>
       <position name="pSmallIRsheildHolderBottomToSideBar" x="-55" y="0" z="-40.5" unit="mm"/>
     </union>
-
-    <box name="bHoldingRailOut" x="20" y="20" z="580" lunit="mm"/> 
-    <box name="bHoldingRailIn" x="16" y="16" z="580" lunit="mm"/>
-    <subtraction name="sDetectorHoldingRail">
-      <first ref="bHoldingRailOut"/>
-      <second ref="bHoldingRailIn"/>
-    </subtraction>
 
     <tube name="sTubularIRsheild" z="150" rmax="85" rmin="84.2" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
     <tube name="sPlatelikeIRsheild" z="1" rmax="235" rmin="100" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
@@ -205,13 +435,13 @@
       <zplane rmin="0" rmax="246" z="552"/>
       <zplane rmin="0" rmax="107.5" z="626"/>
     </polycone>
-
     <polycone name="sDewarInnerShell" startphi="0" deltaphi="360" aunit="deg" lunit="mm">
       <zplane rmin="0" rmax="248" z="0"/>
       <zplane rmin="0" rmax="248" z="554"/>
       <zplane rmin="0" rmax="109.5" z="628"/>
       <zplane rmin="0" rmax="109.5" z="830"/>
     </polycone>
+    
     <polycone name="sVacuumInDewar" startphi="0" deltaphi="360" aunit="deg" lunit="mm">
       <zplane rmin="0" rmax="290" z="0"/>
       <zplane rmin="0" rmax="290" z="767"/>
@@ -245,39 +475,146 @@
       <solidref ref="sNeutronModerationBlock"/>
     </volume>
     
+    <volume name="Collimator">		      
+      <materialref ref="MetalTungsten"/>
+      <solidref ref="sCollimator"/>
+    </volume>
+     
+    <volume name="CollimatorHandle">		      
+      <materialref ref="StainlessSteel304"/>
+      <solidref ref="sCollimatorHandle"/>
+    </volume>
+
+    <assembly name="CollimatorPackage">
+      <physvol>
+	<volumeref ref="Collimator"/>
+	<position name="pCollimator" x="0" y="0" z="64.5" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="CollimatorHandle"/>
+	<position name="pCollimatorHandle" x="18" y="0" z="64.5" unit="mm"/>
+      </physvol>
+    </assembly>    
+     
     <volume name="sensitive_Siegfried">		      
       <materialref ref="NaturalGe"/>
       <solidref ref="sSiegfried"/>
     </volume>
     
-    <volume name="SiegfriedKaptonCable">		      
+    <volume name="SiegfriedSignalCableGuide">      
       <materialref ref="Kapton"/>
-      <solidref ref="sSiegfriedKaptonCable"/>
+      <solidref ref="sSiegfriedSignalCableGuide"/>
     </volume>
     
+    <volume name="SiegfriedSignalCable">		      
+      <materialref ref="MetalCopper"/>
+      <solidref ref="sSiegfriedSignalCable"/>
+    </volume>
+    
+    <volume name="SiegfriedSignalContact">		      
+      <materialref ref="KaptonCopper"/>
+      <solidref ref="sSiegfriedSignalContact"/>
+    </volume>
+    
+    <volume name="SiegfriedUpperTeflonHolder">		      
+      <materialref ref="Teflon"/>
+      <solidref ref="sSiegfriedUpperTeflonHolder"/>
+    </volume>
+ 
+    <volume name="SiegfriedLowerTeflonHolder">		      
+      <materialref ref="Teflon"/>
+      <solidref ref="sSiegfriedLowerTeflonHolder"/>
+    </volume>
+    
+    <volume name="SiegfriedSignalCableHolder">		      
+      <materialref ref="Teflon"/>
+      <solidref ref="sSiegfriedSignalCableHolder"/>
+    </volume>
+    
+    <volume name="SiegfriedHVCableHolder">		      
+      <materialref ref="Teflon"/>
+      <solidref ref="sSiegfriedHVCableHolder"/>
+    </volume>
+  
     <volume name="SiegfriedSupporter">		      
       <materialref ref="MetalCopper"/>
       <solidref ref="sSiegfriedSupporter"/>
     </volume>
     
+    <volume name="SiegfriedSupporterScrewNuts">		      
+      <materialref ref="StainlessSteel304"/>
+      <solidref ref="sSiegfriedSupporterScrewNuts"/>
+    </volume>
+     
     <volume name="SiegfriedHolder">		      
       <materialref ref="MetalCopper"/>
       <solidref ref="sSiegfriedHolder"/>
     </volume>
 
-    <volume name="SmallIRsheild">		      
+    <assembly name="SiegfriedPackage">
+      <physvol>
+	<volumeref ref="sensitive_Siegfried"/>
+	<position name="pSiegfriedDetector" x="0" y="0" z="0" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="SiegfriedSignalCableGuide"/>
+	<position name="pSiegfriedSignalCableGuide" x="0" y="0" z="0" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="SiegfriedSignalCable"/>
+	<position name="pSiegfriedSignalCable" x="0" y="0" z="5" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="SiegfriedSignalContact"/>
+	<position name="pSiegfriedSignalContact" x="0" y="0" z="0" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="SiegfriedUpperTeflonHolder"/>
+	<position name="pSiegfriedUpperTeflonHolder" x="0" y="0" z="36" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="SiegfriedLowerTeflonHolder"/>
+	<position name="pSiegfriedLowerTeflonHolder" x="0" y="0" z="-35" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="SiegfriedSignalCableHolder"/>
+	<position name="pSiegfriedSignalCableHolder" x="0" y="0" z="44.25" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="SiegfriedHVCableHolder"/>
+	<position name="pSiegfriedHVCableHolder" x="0" y="0" z="-40" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="SiegfriedSupporter"/>
+	<position name="pSiegfriedSupporter" x="64" y="0" z="-8" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="SiegfriedSupporterScrewNuts"/>
+	<position name="pSiegfriedSupporterScrewNutsUp" x="65" y="5.5" z="21" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="SiegfriedSupporterScrewNuts"/>
+	<position name="pSiegfriedSupporterScrewNutsDown" x="65" y="5.5" z="-33" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="SiegfriedHolder"/>
+	<position name="pSiegfriedHolder" x="0" y="0" z="43" unit="mm"/>
+      </physvol> 
+    </assembly>
+
+    <volume name="DetectorHoldingRail">
+      <materialref ref="StainlessSteel304"/>
+      <solidref ref="sDetectorHoldingRail"/>
+    </volume>
+    
+    <volume name="SmallIRsheild">
       <materialref ref="MetalCopper"/>
       <solidref ref="sSmallIRsheild"/>
     </volume>
     
-    <volume name="SmallIRsheildHolder">		      
+    <volume name="SmallIRsheildHolder">
       <materialref ref="MetalCopper"/>
       <solidref ref="sSmallIRsheildHolder"/>
-    </volume>
-    
-    <volume name="DetectorHoldingRail">
-      <materialref ref="StainlessSteel304"/>
-      <solidref ref="sDetectorHoldingRail"/>
     </volume>
     
     <volume name="TubularIRsheild">
@@ -293,19 +630,26 @@
     <volume name="CoolingLiquid">
       <materialref ref="LiquidNitrogen"/>
       <solidref ref="sCoolingLiquid"/>
-      <physvol>
-	<volumeref ref="sensitive_Siegfried"/>
-	<position name="pSiegfried1" x="0" y="0" z="Detector1CenterZ" unit="mm"/>
-      </physvol>
-      <physvol>
-	<volumeref ref="sensitive_Siegfried"/>
-	<position name="pSiegfried2" x="0" y="0" z="Detector2CenterZ" unit="mm"/>
-      </physvol>
-      <physvol>
-	<volumeref ref="sensitive_Siegfried"/>
-	<position name="pSiegfried3" x="0" y="0" z="Detector3CenterZ" unit="mm"/>
-      </physvol>
 
+      <physvol>
+	<volumeref ref="CollimatorPackage"/>
+	<position name="pCollimatorPackage" x="0" y="0" z="CollimatorCenterZ" unit="mm"/>
+	<rotation name="rCollimatorPackage" x="0" y="-90" z="CollimatorAngle" unit="degree"/>
+      </physvol>
+      
+      <physvol>
+	<volumeref ref="SiegfriedPackage"/>
+	<position name="pSiegfriedPackage1" x="0" y="0" z="Detector1CenterZ" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="SiegfriedPackage"/>
+	<position name="pSiegfriedPackage2" x="0" y="0" z="Detector2CenterZ" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="SiegfriedPackage"/>
+	<position name="pSiegfriedPackage3" x="0" y="0" z="Detector3CenterZ" unit="mm"/>
+      </physvol>
+      
       <physvol>
 	<volumeref ref="TubularIRsheild"/>
 	<position name="pTubularIRsheild" x="0" y="0" z="483" unit="mm"/>
@@ -320,37 +664,12 @@
       </physvol>
       <physvol>
 	<volumeref ref="SmallIRsheild"/>
-	<position name="pSmallIRsheild" x="25" y="0" z="453.5" unit="mm"/>
+	<position name="pSmallIRsheild" x="0" y="0" z="453.5" unit="mm"/>
       </physvol>
 
       <physvol>
 	<volumeref ref="DetectorHoldingRail"/>
-	<position name="pDetectorHoldingRail" x="65" y="17" z="336" unit="mm"/>
-      </physvol>
-
-      <physvol>
-	<volumeref ref="SiegfriedSupporter"/>
-	<position name="pSiegfriedSupporter1" x="65" y="0" z="360" unit="mm"/>
-      </physvol>
-      <physvol>
-	<volumeref ref="SiegfriedSupporter"/>
-	<position name="pSiegfriedSupporter2" x="65" y="0" z="230" unit="mm"/>
-      </physvol>
-      <physvol>
-	<volumeref ref="SiegfriedSupporter"/>
-	<position name="pSiegfriedSupporter3" x="65" y="0" z="100" unit="mm"/>
-      </physvol>
-      <physvol>
-	<volumeref ref="SiegfriedHolder"/>
-	<position name="pSiegfriedHolder1" x="0" y="0" z="411" unit="mm"/>
-      </physvol>
-      <physvol>
-	<volumeref ref="SiegfriedHolder"/>
-	<position name="pSiegfriedHolder2" x="0" y="0" z="281" unit="mm"/>
-      </physvol>
-      <physvol>
-	<volumeref ref="SiegfriedHolder"/>
-	<position name="pSiegfriedHolder3" x="0" y="0" z="151" unit="mm"/>
+	<position name="pDetectorHoldingRail" x="62" y="17" z="336" unit="mm"/>
       </physvol>
     </volume>
     
@@ -433,18 +752,18 @@
 	<volumeref ref="FaradayCage"/>
 	<position name="pFaradayCage" x="0" y="0" z="0" unit="mm"/>
       </physvol>
-      <physvol>
+      <!--<physvol>
 	<volumeref ref="LeadBricks"/>
 	<position name="pLeadBricks" x="-450" y="0" z="-730" unit="mm"/>
       </physvol>
       <physvol>
 	<volumeref ref="NeutronModerationBlock"/>
 	<position name="pNeutronModerationBlock" x="-550" y="0" z="-730" unit="mm"/>
-      </physvol>
+      </physvol>-->
     </volume>
   </structure>
   
   <setup name="Default" version="1.0">
-    <world ref="World"/>
+    <world ref="CoolingLiquid"/>
   </setup>
 </gdml>
