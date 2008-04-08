@@ -1,37 +1,41 @@
 /MG/manager/mglog routine
 
 /MG/processes/realm BBdecay
-#/MG/processes/useNoHadPhysics true
+/MG/processes/useNoHadPhysics true
 #/process/verbose 3
 
+#/MG/geometry/GDML/sourceFile SiegfriedPackage.gdml
 /MG/geometry/GDML/sourceFile GerdalinchenII.gdml
 
-/MG/eventaction/Crystal/save all
-/MG/eventaction/rootfilename GerdalinchenII.root
-/MG/eventaction/reportingfrequency 1000
+#/MG/eventaction/Crystal/save hit
+#/MG/eventaction/rootfilename GerdalinchenII.root
+#/MG/eventaction/reportingfrequency 1000
 
 /run/initialize
-
 #/material/nist/listMaterials
 
 #/MG/generator/select AmBe
 #/MG/generator/position 70 40 10 mm
 
-/MG/generator/select SPS
-/gps/particle ion 
-#gamma
-/gps/ion 98 252 0
-/gps/position -600.1 0.0 -730.0 mm
+#/MG/generator/select SPS
+#/gps/particle gamma
+#/gps/position -150 0.0 0.0 mm
 #/gps/ang/type iso
-/gps/ang/mintheta 50
-/gps/ang/maxtheta 130
-/gps/ang/minphi -40
-/gps/ang/maxphi 40
-/gps/energy 0 MeV
+#/gps/energy 100 MeV
+#/gps/particle neutron
+#/gps/position -320. 0.0 -730.0 mm
+#/gps/ang/rot1 0 0 1
+#/gps/ang/rot2 0 1 0
+#/gps/ang/type beam1d
+#/gps/ang/sigma_r 10. deg
+#/gps/ene/type Exp
+#/gps/ene/min 0.1 MeV
+#/gps/ene/max 10. MeV
+#/gps/ene/ezero 0.5
 
-/vis/geometry/set/colour LeadBricks	 	0 0.6 0.6 0.6
-/vis/geometry/set/colour NeutronModerationBlock 0 1.0 1.0 1.0
-
+#/vis/geometry/set/colour LeadBricks	 	0 0.6 0.6 0.6
+#/vis/geometry/set/colour NeutronModerationBlock 0 1.0 1.0 1.0
+#
 /vis/geometry/set/colour FaradayCage	 	0 0.6 0.6 0.6
 /vis/geometry/set/colour AirInCage	 	0 0.6 0.6 0.6
 
@@ -45,18 +49,28 @@
 /vis/geometry/set/colour CoolingLiquid	 	0 0.4 0.6 1.0
 /vis/geometry/set/colour CoolingGas	 	0 0.8 1.0 1.0
 
-/vis/geometry/set/colour SmallIRsheild 		0 0.8 0.4 0.2
-/vis/geometry/set/colour TubularIRsheild 	0 0.8 0.4 0.2
-/vis/geometry/set/colour PlatelikeIRsheild 	0 0.8 0.4 0.2
-
-/vis/geometry/set/colour DetectorHoldingRail 	0 0.6 0.6 0.6
-
-/vis/geometry/set/colour SiegfriedSupporter 	0 1.0 0.8 0.0
-/vis/geometry/set/colour SmallIRsheildHolder 	0 1.0 0.8 0.0
-
-/vis/geometry/set/colour SiegfriedHolder 	0 0.8 0.6 0.0
-
-/vis/geometry/set/colour sensitive_Siegfried 	0 1.0 0.4 0.0
+# stainless steel
+/vis/geometry/set/colour CollimatorHandle            0 0.6 0.6 0.6
+/vis/geometry/set/colour DetectorHoldingRail         0 0.6 0.6 0.6
+/vis/geometry/set/colour SiegfriedSupporterScrewNuts 0 0.6 0.6 0.6
+/vis/geometry/set/colour GasPipe                     0 0.6 0.6 0.6
+/vis/geometry/set/colour FillingPipe                 0 0.6 0.6 0.6
+# tungston
+/vis/geometry/set/colour Collimator 0 0.8 0.8 0.8
+# copper
+/vis/geometry/set/colour SiegfriedHolder     0 0.8 0.4 0.2
+/vis/geometry/set/colour SiegfriedSupporter  0 0.8 0.4 0.2 
+/vis/geometry/set/colour PlatelikeIRsheild   0 0.8 0.4 0.2
+/vis/geometry/set/colour TubularIRsheild     0 0.8 0.4 0.2
+/vis/geometry/set/colour SmallIRsheild       0 0.8 0.4 0.2
+/vis/geometry/set/colour SmallIRsheildHolder 0 0.8 0.4 0.2
+# kapton
+/vis/geometry/set/colour SiegfriedSignalCableGuide 0 0.8 0.6 0.0
+# kapton+copper
+/vis/geometry/set/colour SiegfriedSignalCable   0 1.0 0.8 0.0
+/vis/geometry/set/colour SiegfriedSignalContact 0 1.0 0.8 0.0
+# germanium
+/vis/geometry/set/colour sensitive_Siegfried 0 0.9 0.9 0.9
 
 #/vis/open OGLIX
 #/vis/scene/create
@@ -64,14 +78,15 @@
 #/vis/viewer/set/viewpointVector 0 -1 0
 #/vis/drawVolume
 
-#/vis/open ATree
-#/vis/scene/create
-#/vis/ASCIITree/verbose 1
-#/vis/drawTree
+/vis/open ATree
+/vis/scene/create
+/vis/ASCIITree/verbose 1
+/vis/drawTree
 
 /vis/open HepRepFile
 /vis/drawVolume
 /vis/scene/add/axes 0 0 0 1 m
+/vis/scene/add/trajectories
 /vis/viewer/flush
 
 #/vis/open HepRepXML
@@ -79,5 +94,8 @@
 #/vis/scene/add/axes 0 0 0 1 m
 #/vis/viewer/flush
 
-#/tracking/verbose 3
-/run/beamOn 10
+#/MG/geometry/OverlapVerbosity true
+/MG/geometry/CheckOverlaps
+
+#/tracking/verbose 1
+#/run/beamOn 5000
