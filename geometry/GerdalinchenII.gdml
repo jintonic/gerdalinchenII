@@ -403,6 +403,9 @@
       <rotation name="rSiegfriedSupporterScrewNutOToB" x="90" y="0" z="0" unit="degree"/>
     </union>
 
+    <tube name="sGasPipe" z="550" rmax="5" rmin="2" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
+    <tube name="sFillingPipe" z="624" rmax="5" rmin="2" lunit="mm" startphi="0" deltaphi="360" aunit="degree"/>
+    
     <box name="bHoldingRailOut" x="20" y="20" z="580" lunit="mm"/> 
     <box name="bHoldingRailIn" x="16" y="16" z="590" lunit="mm"/>
     <subtraction name="sDetectorHoldingRail">
@@ -602,6 +605,16 @@
       </physvol> 
     </assembly>
 
+    <volume name="GasPipe">
+      <materialref ref="StainlessSteel304"/>
+      <solidref ref="sGasPipe"/>
+    </volume>
+    
+    <volume name="FillingPipe">
+      <materialref ref="StainlessSteel304"/>
+      <solidref ref="sFillingPipe"/>
+    </volume>
+    
     <volume name="DetectorHoldingRail">
       <materialref ref="StainlessSteel304"/>
       <solidref ref="sDetectorHoldingRail"/>
@@ -666,7 +679,20 @@
 	<volumeref ref="SmallIRsheild"/>
 	<position name="pSmallIRsheild" x="0" y="0" z="453.5" unit="mm"/>
       </physvol>
-
+      
+      <physvol>
+	<volumeref ref="GasPipe"/>
+	<position name="pGasPipeLeft" x="0" y="90.5" z="351" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="GasPipe"/>
+	<position name="pGasPipeRight" x="0" y="-90.5" z="351" unit="mm"/>
+      </physvol>
+      <physvol>
+	<volumeref ref="FillingPipe"/>
+	<position name="pFillingPipe" x="-45" y="-78" z="313" unit="mm"/>
+      </physvol>
+      
       <physvol>
 	<volumeref ref="DetectorHoldingRail"/>
 	<position name="pDetectorHoldingRail" x="62" y="17" z="336" unit="mm"/>
