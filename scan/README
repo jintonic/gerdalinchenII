@@ -1,0 +1,113 @@
+================================
+things to do
+================================
+
+- data
+
+  * try to fit the 121 keV peak for each scan point
+
+  * make a list of Nevents, S/N in each scan point 
+    (if no peak, Nevents = 0)
+
+  * select the 121 keV events for each scan point, if there is a peak
+
+  * convert the selected events from Gerda format to Majorana format
+
+- simulation
+
+  * create geometry in "SIIscan.gdml" according to technical drawing
+  
+  * use ROOT to check the geometry
+  
+  * tune the generator setup in "SIIscan121keV.mac"
+  
+  * get familiar with the data structure in the output ROOT file
+    (http://www.mppmu.mpg.de/~jingliu/cgi-bin/viewvc.cgi/doc/GERDAUsersGuide/)
+    (chapter I/O scheme -> GEOutputCrystal)
+
+  * select the 121 keV events for each scan point. 
+    (single segment events, energy cut)
+  
+  v write a script (createPS.cc) to simulate the PS of 121 keV events
+
+- analysis
+
+  * average the pulses in data from each scan point
+
+  * do the same for simulated pulses
+
+  * compare averaged pulses from data to one simulated pulse
+    to get the risetimes
+
+  * compare averaged pulses in data and simulation
+    to verify the simulation
+
+  * draw some conclusion
+
+- memo
+
+  * document every step
+
+================================
+how to use drawgdml.C
+================================
+$ root
+root[] .x drawgdml.C("siegfried.gdml")
+
+
+================================
+how to tune generator
+================================
+$ MaGe SIIscan121keV.mac
+$ /remote/gx336-01/usr/wired3-14.2b4/bin/wired G4Data0.heprep
+
+
+================================
+how to use SVN (work with others)
+================================
+
+* first thing to do:
+  $ svn co file:///home/pclg-13/jingliu/svn/gerdalinchenII/scan  # get a copy
+
+* everytime before you start working:
+  $ svn up  # update the current directory, get changes others made
+
+* if you changed something:
+  $ svn ci -m "what are the changes" changedFilesOrDirectories # commit your modification
+
+* if you added a new file:
+  $ svn add newfiles # add new files to the SVN repository
+
+* before you stop working:
+  $ svn st -vvv # check if you forget to check in some modifications
+  $ svn ci -m "..." somethingYouForgetToCheckIn
+
+================================
+how to compile createPS.cc
+================================
+$ cd /path/to/MaGe/sandbox
+$ ln -sf /path/to/scan/sim/createPS.cc
+$ xemacs GNUMakefile
+    find the line starting with MGTARGETS
+    change it to 
+    MGTARGETS = createPS WaveformBrowser
+    save and quit
+$ make
+$ cd /path/to/scan/sim
+$ createPS    # create pulse shapes
+$ WaveformBrowser WFGenFromDriftOutput.root # check created ps
+
+==================================================
+how to convert Gerda PS file to Majorana PS file
+==================================================
+$ cd /path/to/scan/dat/converter
+$ make
+$ ./g2m input.root
+$ mv wfcollectioin.root ../outputName.root
+
+==================================================
+how to create memo.pdf
+==================================================
+$ cd /path/to/scan/memo
+$ make help # and then follow the instruction
+
