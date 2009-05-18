@@ -1,0 +1,235 @@
+\documentclass[12pt, a4paper]{article}
+\input{preamble}
+
+\title{Occupancy analysis using 88 keV line from Cd source in the core
+  of Siegfried II}
+
+\author{Jing Liu}
+
+\date{\today{}}
+
+\begin{document}
+\maketitle{}
+\tableofcontents
+
+\section{Data selection}
+\label{s:sel}
+Data used here were taken in Run\_05 with Siegfried~II (SII in short)
+in Gerdalinchen~II (GII in short):
+\begin{lstlisting}
+/.hb/raidg01/Siegfried_II/Run_05/Cd_ET/Cd_et000{1,4,6}.root
+\end{lstlisting}
+The selection codes are in:
+\begin{lstlisting}
+  ~/work/gerdalinchenII/hole/occupancy/data/SII_Run_05_Cd_ET.C
+\end{lstlisting}
+The selection is done in several steps:
+\begin{enumerate}
+\item \lstinline!void pre(Int_t index)! selects single segment event
+  (energy threshold is 15~keV) with fired segment only in the top
+  layer of SII and the energy deposited is smaller than 100~keV. The
+  output are pre1.root, pre4.root and pre6.root.
+\item \lstinline!void mca(Int_t index)! reads pre1.root, pre4.root or
+  pre6.root, and create the MCA spectra of all channels (mca[0] means
+  the core) in the range of about [70, 100]~keV. The output are
+  mca1.root, mca4.root and mca6.root.
+\item \lstinline!void fitmca(Int_t index)! reads mca1.root, mca4.root
+  or mca6.root, gets the MCA spectra of segment 1, 2, 3, 16, 17, 18
+  (top layer), relabels them to 1, 2, 3, 4, 5, 6 as shown in Fig.~
+  \ref{f:setup}. A Gaussian plus $1^{st}$-order polynomial is used to
+  fit the 88~keV peak in each of the spectrum as shown in
+  Fig.~\ref{f:fit88}. The numbers of events inside the peak and the
+  relabeled segment ID are output into Nseg1.txt, Nseg4.txt and
+  Nseg6.txt.
+\end{enumerate}
+
+\begin{figure}[fptb]
+  \centering
+  \includegraphics[width=0.8\textwidth]{segID}
+  \caption{Experimental setup.}
+  \label{f:setup}
+\end{figure}
+
+\begin{figure}[fptb]
+  \centering
+  \includegraphics[width=\textwidth]{fit88}
+  \caption{Fit of the 88~keV peaks recorded by the segments in the top
+    layer of SII.}
+  \label{f:fit88}
+\end{figure}
+The codes can be run as:
+\begin{lstlisting}
+  $ cd ~/work/gerdalinchenII/hole/occupancy/data/
+  $ root
+  root[] .L SII_Run_05_Cd_ET.C++
+  root[] pre(1) or pre(4), pre(6)
+  root[] mca(1) or mca(4), mca(6)
+  root[] fitmca(1) or fitmca(4), fitmca(6)
+\end{lstlisting}
+
+\section{Simulation}
+\label{s:sim}
+The geometry is described in file 
+\begin{lstlisting}
+  ~/work/gerdalinchenII/hole/occupancy/sim/SII_Cd.gdml
+\end{lstlisting}
+The deadlayer in the core is 0.5~mm thick.
+
+The hits distribution is simulated using MaGe. The macro file is:
+\begin{lstlisting}
+  ~/work/gerdalinchenII/hole/occupancy/sim/SII_Cd.mac
+\end{lstlisting}
+The source is a small tablet emitting 88~keV photons in the core of
+SII. 200,000 events are simulated. The output file is
+\lstinline!SII_Cd.root!. The R distribution of the hits is shown in Fig.~\ref{f:dep}.
+\begin{figure}[fptb]
+  \centering
+  \includegraphics[width=0.5\textwidth]{Depth88keV}
+  \caption{R distribution of hits created by the $^109$Cd source in
+    the core of SII.}
+  \label{f:dep}
+\end{figure}
+
+The drift of holes created by the hits is calculated using the program
+\begin{lstlisting}
+  ~/work/gerdalinchenII/hole/occupancy/sim/calculatePhis.cc
+\end{lstlisting}
+The program is linked to \lstinline!MaGe/sandbox!, compiled there.
+
+The positions of the end points of the drift trajectories on the outer
+surface of SII are recorded in files \lstinline!Occ*.root!.
+
+The electric field is calculated using program
+\lstinline!calculateFields.cc!. It changes with the impurity density
+inside the crystal. Different impurity density distributions are
+tried:
+\begin{itemize}
+\item zero impurity. the field is saved in
+  \lstinline!f0impurity.root!.
+\item $4.1 \times 10^{9}/$cm$^{3}$. the field is saved in
+  \lstinline!f4e9.root!.
+\item $1 \times 10^{10}/$cm$^{3}$. the field is saved in
+  \lstinline!f1e10.root!.
+\end{itemize}
+
+\section{Comparison}
+\label{s:com}
+The comparison is done using the function 
+\lstinline!void occupancy(Int_t index=1)! in program:
+\begin{lstlisting}
+  ~/work/gerdalinchenII/hole/occupancy/data/SII_Run_05_Cd_ET.C
+\end{lstlisting}
+The input include
+\begin{lstlisting}
+  ~/work/gerdalinchenII/hole/occupancy/data/Nseg1{4,6}.txt
+\end{lstlisting}
+which contains the occupancy distribution in data, and
+\begin{lstlisting}
+  ~/work/gerdalinchenII/hole/occupancy/sim/Occ*.root
+\end{lstlisting}
+which contains the information of the simulated end points of hole
+trajectories on the outer surface of SII. The signals are assigned to
+segment 1, 2, 3, 4, 5, 6 according to the $\phi$ angle of the end
+points. The simuated occupancy changes with $\phi_{110}$, the angle
+between the crystal axis and one segment boundary. In function
+\lstinline!void occupancy(Int_t index=1)!, $\phi_{110}$ changes from
+0$^{\circ}$ to 360$^{\circ}$ with a step size of 1$^{\circ}$. For each
+$\phi_{110}$ value a occupancy distribution is calculated and compared
+to data after normalization. The $\chi^{2}$ of the comparison is
+calculated as:
+\begin{equation}
+  \label{e:chi2}
+  \chi^{2} = \sum_{i=1}^{6} \left( \frac{N^{dat}_{i} - N^{nor}_{i}} 
+    {\sigma_{i}} \right)^{2} \text{   with   } N^{nor}_{i} = 
+  N^{sim}_{i} \frac{\sum N^{dat}_{i}} {\sum N^{sim}_{i}} ,
+\end{equation}
+where $i$ indicates the segment ID as defined in Fig.~\ref{f:setup};
+$N^{dat}_{i}$ and $N^{sim}_{i}$ indicate the number of 88~keV events
+in segment $i$ given by the measurement and simulation, respectively;
+and $\sigma_{i}$ is the total uncertainty from the measurement and
+simulation which can be expressed as
+\begin{equation}
+  \label{e:sig}
+  \sigma_{i}^{2} = (\sigma_{i}^{dat})^{2} + (\sigma_{i}^{nor})^{2}
+\end{equation}
+with
+\begin{eqnarray}
+  \label{e:nor}
+  (\frac{\sigma_{i}^{nor}}{N_{i}^{nor}})^{2} &=& 
+  (\frac{\sigma_{i}^{sim}}{N_{i}^{sim}})^{2} + 
+  (\frac{\sigma_{i}^{\sum dat}}{\sum N_{i}^{dat}})^{2} +
+  (\frac{\sigma_{i}^{\sum sim}}{\sum N_{i}^{sim}})^{2}\\
+  &=& \frac{1}{N_{i}^{sim}} + \frac{1}{\sum N_{i}^{dat}} +
+  \frac{1}{\sum N_{i}^{sim}}.
+\end{eqnarray}
+So the $\chi^{2}$ can be expressed as
+\begin{equation}
+  \label{e:fx2}
+  \chi^{2} = \sum_{i=1}^{6} \frac{(N_{i}^{dat} - N_{i}^{nor})^{2}} 
+  {(\sigma_{i}^{dat})^{2} + (N_{i}^{nor})^{2}(\frac{1}{N_{i}^{sim}} + 
+    \frac{1}{\sum N_{i}^{dat}} + \frac{1}{\sum N_{i}^{sim}})}
+\end{equation}
+The number of degrees of freedom (NDF) of the fit is
+\begin{equation}
+  \label{e:ndf}
+  \text{NDF} = 6 \text{ (data points)} - 1 \text{ (free parameter } \phi_{110}) = 5
+\end{equation}
+
+The $\chi^{2}$/NDF as a function of $\phi_{110}$ is shown in the right
+plot of Fig.~\ref{f:occ4e9}. Different impurity densities in the
+simulation and different data sets are tried, and $\phi_{110}$ with
+the smallest $\chi^{2}$ given by the fits is listed in
+Table~\ref{t:res}. 
+
+\begin{figure}[pbht]
+  \centering
+  \includegraphics[width=0.9\textwidth]{occ0_1}
+  \includegraphics[width=0.9\textwidth]{occ4e9_1}
+  \includegraphics[width=0.9\textwidth]{occ1e10_1}
+  \caption{Left: Occupancy distribution from data and simulation with
+    the smallest $\chi^2$, Right: $\chi^2$ as a function of
+    $\phi_{110}$. The impurity density in the simulation is 0, 0.41
+    and 1 $\times 10^{10}$~cm$^{-3}$ from top to bottom.}
+  \label{f:occ4e9}
+\end{figure}
+
+\begin{table}[pbht]
+  \centering
+  \caption{$\phi_{110}$ corresponding to the minimal $\chi^{2}$/NDF 
+    (in the brackets).}
+  \label{t:res}
+\begin{tabular}{c|c|c|c}
+\hline
+impurity ($10^{10}$~cm$^{-3}$) & 0 & 0.41 (Canberra value)& 1 \\\hline
+data set 1 & 174$^\circ$ (33) & 174$^\circ$ (38) & 224$^\circ$ (234) \\
+data set 4 & 175$^\circ$ (37) & 174$^\circ$ (42) & 226$^\circ$ (250) \\
+data set 6 & 176$^\circ$ (35) & 175$^\circ$ (41) & 226$^\circ$ (242) \\\hline
+\end{tabular}
+\end{table}
+
+The value of $\phi_{110}$ does change with the impurity density. The
+smaller the density, the stronger the bend of the trajectories, and
+the larger the difference of the occupancy in different segments. When
+the impurity density in the simulation is too large, the difference of
+the occupancy in different segments becomes too small to describe the
+data. It gives us a feeling of the impurity level. Once the impurity
+density is within a reasonable region, the result does not change too
+much.
+
+The best results are given by the simulation with zero impurity
+instead of the value given by Canberra. This is understandable because
+the value given by Canberra is a average, the top layer should have a
+smaller value.
+
+Different data sets give slightly different results. The deviation is
+about 2$^{\circ}$. Since the $\chi^{2}$/NDF distribution has a
+$90^{\circ}$ degeneracy, $\phi_{110}$ and $\phi_{110} + n \times
+90^{\circ}$ (n is an integer) gives the same result, the fit indicates
+that $\phi_{110} \cong -5^{\circ}$.
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

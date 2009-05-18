@@ -1,0 +1,35 @@
+/MG/manager/mglog routine
+
+/MG/processes/realm BBdecay
+/MG/processes/useNoHadPhysics true
+#/process/verbose 3
+
+/MG/geometry/GDML/sourceFile SII_Cd.gdml
+
+/MG/eventaction/Crystal/save hit
+/MG/eventaction/rootfilename SII_Cd.root
+/MG/eventaction/reportingfrequency 10000
+
+/run/initialize
+
+/MG/generator/select SPS
+/gps/particle gamma
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/centre 0. 0. 20. mm
+/gps/pos/radius 2. mm
+/gps/pos/halfz 2. mm
+/gps/ang/type iso
+/gps/energy 88 keV
+
+#/vis/open ATree
+#/vis/ASCIITree/verbose 2
+#/vis/drawTree
+
+#/vis/open HepRepFile
+#/vis/drawVolume
+#/vis/scene/add/trajectories
+#/vis/viewer/refresh
+
+#/tracking/verbose 3
+/run/beamOn 200000

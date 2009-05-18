@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<gdml xmlns:gdml="http://cern.ch/2001/Schemas/GDML" 
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+      xsi:noNamespaceSchemaLocation="/remote/gx336-01/usr/gdml-2.10.0/GDMLSchema/gdml.xsd">
+
+ <define>
+ </define>
+
+ <materials>
+  <material Z="32" formula=" " name="NaturalGe" >
+   <D value="5.32" />
+   <atom value="72.6503" />
+  </material>
+  <material Z="7" formula=" " name="LN2" >
+   <D value="0.808" />
+   <atom value="14.01" />
+  </material>
+  <element Z="14" formula="Si" name="Silicon" >
+   <atom value="28.09" />
+  </element>
+  <element Z="24" formula="Cr" name="Chromium" >
+   <atom value="51.9961" />
+  </element>
+  <element Z="25" formula="Mn" name="Manganese" >
+   <atom value="54.9381" />
+  </element>
+  <element Z="28" formula="Ni" name="Nickel" >
+   <atom value="58.6934" />
+  </element>
+  <element Z="26" formula="Fe" name="Iron" >
+   <atom value="55.845" />
+  </element>
+  <material formula=" " name="Steel" >
+   <D value="7.9" />
+   <fraction n="0.01" ref="Silicon" />
+   <fraction n="0.2" ref="Chromium" />
+   <fraction n="0.02" ref="Manganese" />
+   <fraction n="0.67" ref="Iron" />
+   <fraction n="0.1" ref="Nickel" />
+  </material>
+</materials>
+
+ <solids>
+  <tube name="sHolder" z="20" rmax="3.2" rmin="2" lunit="mm" startphi="0" deltaphi="360" aunit="degree" />
+  <tube name="sCrystal" z="70" rmax="37.5" rmin="5.5" lunit="mm" startphi="0" deltaphi="360" aunit="degree" />
+  <tube name="sDeadLayer" z="70" rmax="37.5" rmin="5" lunit="mm" startphi="0" deltaphi="360" aunit="degree" />
+  <tube name="sWorld" z="75" rmax="40" rmin="0" lunit="mm" startphi="0" deltaphi="360" aunit="degree" />
+ </solids>
+
+ <structure>
+  <volume name="Sensitive_Siegfried" >
+   <materialref ref="NaturalGe" />
+   <solidref ref="sCrystal" />
+  </volume>
+
+  <volume name="SourceHolder" >
+   <materialref ref="Steel" />
+   <solidref ref="sHolder" />
+  </volume>
+
+  <volume name="Siegfried" >
+   <materialref ref="NaturalGe" />
+   <solidref ref="sDeadLayer" />
+   <physvol>
+    <volumeref ref="Sensitive_Siegfried" />
+    <position name="pActive" unit="mm" x="0" y="0" z="0" />
+   </physvol>   
+  </volume>
+
+  <volume name="World" >
+   <materialref ref="LN2" />
+   <solidref ref="sWorld" />
+   <physvol>
+    <volumeref ref="Siegfried" />
+    <position name="pCrystal" unit="mm" x="0" y="0" z="0" />
+   </physvol>
+   <!--
+   <physvol>
+    <volumeref ref="SourceHolder" />
+    <position name="pHolder" unit="mm" x="0" y="0" z="25" />
+   </physvol>
+   -->
+  </volume>
+ </structure>
+
+ <setup name="Default" version="1.0" >
+  <world ref="World" />
+ </setup>
+
+</gdml>
