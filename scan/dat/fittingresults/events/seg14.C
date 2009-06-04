@@ -18,9 +18,12 @@ seg14()
    
    TGraph *gr = new TGraph(n,x,z);
    TGraphErrors *gre = new TGraphErrors(n,x,y,ex,ey);
-  
-      gr->Draw("alp");
-      gre->Draw("alp");
-      gre->GetXaxis()->SetTitle("angle");
-      gre->GetYaxis()->SetTitle("#envents/FWHM"); 
+   TMultiGraph *mg = new TMultiGraph();
+   mg->Add(gr,"lp");
+   mg->Add(gre,"cp");
+ 
+//   mg->GetXaxis()->SetTitle("angle");
+//   mg->GetYaxis()->SetTitle("#envents/FWHM"); 
+
+   mg->Draw("a");
 }
