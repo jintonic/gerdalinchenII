@@ -1,0 +1,276 @@
+This is e-TeX, Version 3.14159-2.1 (Web2C 7.3.1) (format=latex 1999.10.11)  4 JUN 2009 11:55
+**fittingresults.tex
+(fittingresults.tex
+LaTeX2e <1998/12/01> patch level 1
+Babel <v3.6x> and hyphenation patterns for american, french, german, ngerman, n
+ohyphenation, loaded.
+(/usr/local/tex/texmf/tex/latex/base/article.cls
+Document Class: article 1999/01/07 v1.4a Standard LaTeX document class
+(/usr/local/tex/texmf/tex/latex/base/size11.clo
+File: size11.clo 1999/01/07 v1.4a Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/local/tex/texmf/tex/latex/misc/subfigure.sty
+Package: subfigure 1995/03/06 v2.0 subfigure package
+
+Package: subfigure 1995/03/06 v2.0
+\c@subfigure=\count87
+\c@lofdepth=\count88
+\c@subtable=\count89
+\c@lotdepth=\count90
+) (/usr/local/tex/texmf/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/tex/texmf/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+(/usr/local/tex/texmf/tex/latex/graphics/graphics.sty
+Package: graphics 1999/02/16 v1.0l Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/tex/texmf/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/local/tex/texmf/tex/latex/config/graphics.cfg)
+Package graphics Info: Driver file: dvips.def on input line 80.
+
+(/usr/local/tex/texmf/tex/latex/graphics/dvips.def
+File: dvips.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+))
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+)
+(/usr/local/tex/texmf/tex/latex/base/makeidx.sty
+Package: makeidx 1998/08/17 v1.0k Standard LaTeX package
+)
+(/usr/local/tex/texmf/tex/latex/misc/multirow.sty
+\bigstrutjot=\dimen105
+)
+(/usr/local/tex/texmf/tex/latex/tools/verbatim.sty
+Package: verbatim 1997/04/30 v1.5k LaTeX2e package for verbatim enhancements
+\every@verbatim=\toks15
+\verbatim@line=\toks16
+\verbatim@in@stream=\read1
+) (fittingresults.aux)
+\openout1 = `fittingresults.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 47.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 47.
+
+[1
+
+]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <10.95> on input line 59.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 59.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 59.
+
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.61 ..._{14}$^^I^^I&$N_{15}$^^I&$\sigma_{15}$^^I&
+                                                  \hline
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.62 ...I&457^^I^^I^^I&552 $\pm$ 105^^I^^I&150^^I&
+                                                   \hline
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.63 ... &14 ^^I^^I^^I&581 $\pm$ 119^^I^^I&137^^I&
+                                                   \hline
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.64 ...7  &173^^I^^I^^I&145 $\pm$ 70^^I^^I&90^^I&
+                                                   \hline
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.65 ... &164^^I^^I^^I&175 $\pm$ 132^^I^^I&176^^I&
+                                                   \hline
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.66 ...   &77^^I^^I^^I&147 $\pm$ 90^^I^^I&171^^I&
+                                                   \hline
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.67 ...2   &47^^I^^I^^I&65  $\pm$ 29^^I^^I&37^^I&
+                                                   \hline
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.68 ...3   &52^^I^^I^^I&29  $\pm$ 22^^I^^I&19^^I&
+                                                   \hline
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.69 ...0   &44^^I^^I^^I&33  $\pm$ 17^^I^^I&19^^I&
+                                                   \hline
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.70 ...   &47^^I^^I^^I&22  $\pm$ 179^^I^^I&29^^I&
+                                                   \hline
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.71 ...9   &43^^I^^I^^I&30  $\pm$ 14^^I^^I&15^^I&
+                                                   \hline
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.72 ... 43   &51^^I^^I^^I&0   $\pm$ 3^^I^^I&0^^I&
+                                                   \hline
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.73 ...71   &104^^I^^I^^I&x   $\pm$ x^^I^^I&x^^I&
+                                                   \hline
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.74 ...4   &129^^I^^I^^I&16  $\pm$ 30^^I^^I&8^^I&
+                                                   \hline
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.75 ...  &146^^I^^I^^I&2   $\pm$ 477^^I^^I&35^^I&
+                                                   \hline
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.76 ... 87   &43^^I^^I^^I&17  $\pm$ 7^^I^^I&8^^I&
+                                                   \hline
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.77 ...   &10^^I^^I^^I&15  $\pm$ 110^^I^^I&20^^I&
+                                                   \hline
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.78 ...   &93^^I^^I^^I&46  $\pm$ 107^^I^^I&36^^I&
+                                                   \hline
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.79 ...   &21^^I^^I^^I&33  $\pm$ 43 ^^I^^I&47^^I&
+                                                   \hline
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+[1] (fittingresults.aux) ) 
+Here is how much of TeX's memory you used:
+ 653 strings out of 10789
+ 7475 string characters out of 71018
+ 60678 words of memory out of 263001
+ 3628 multiletter control sequences out of 10000+0
+ 6985 words of font info for 25 fonts, out of 400000 for 1000
+ 14 hyphenation exceptions out of 1000
+ 25i,9n,21p,513b,286s stack positions out of 300i,100n,500p,50000b,4000s
+
+Output written on fittingresults.dvi (2 pages, 7272 bytes).
