@@ -23,8 +23,8 @@ seg13()
    mg->Add(gr,"lp");
    mg->Add(gre,"cp");
 
-   mg->GetXaxis()->SetTitle("angle");
-   mg->GetYaxis()->SetTitle("#envents/Sigma"); 
+//   mg->GetXaxis()->SetTitle("angle");
+//   mg->GetYaxis()->SetTitle("#envents/Sigma"); 
 
    mg->Draw("a");
 }
