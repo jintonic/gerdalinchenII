@@ -4,7 +4,9 @@ things to do
 
 - data
 
-  * try to fit the 121 keV peak for each scan point
+  * select 121 keV events at different scan point
+
+  * try to fit the 121 keV peak for each scan point (Gaussian+Poly)
 
   * make a list of Nevents, S/N in each scan point 
     (if no peak, Nevents = 0)
