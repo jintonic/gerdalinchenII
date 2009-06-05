@@ -73,8 +73,8 @@ void pre(Int_t theAngle=0)         // a preliminary selection
          }
       }
       	 if (firedSegID==13 || firedSegID==14 || firedSegID==15)
-	    if (Cha_MCAEnergy[firedSegID]<22000) // no high energy photons
-	       if (Cha_MCAEnergy[firedSegID]>16000) // no low energy photons
+	    if (Cha_MCAEnergy[firedSegID]<26000) // no high energy photons
+	       if (Cha_MCAEnergy[firedSegID]>14000) // no low energy photons
 		  newtree->Fill();
    }
    

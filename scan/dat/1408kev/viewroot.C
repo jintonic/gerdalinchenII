@@ -1,5 +1,5 @@
-void viewroot(){
+void viewroot(Int_t theChannel, Int_t theAngle){
 TChain *A0Tree = new TChain("PSTree");
-A0Tree->AddFile("/remote/pclg-10/aghaei/scan/dat/1408kev/phi5.root");
-A0Tree->Draw("Cha_MCAEnergy[13]>>hdat0(100,12000.0,20000.0)");
+A0Tree->AddFile(Form("/remote/pclg-10/aghaei/scan/dat/1408kev/phi%d.root",theAngle));
+A0Tree->Draw(Form("Cha_MCAEnergy[%d]>>hdat0(200,10000.0,26000.0)",theChannel));
 }
