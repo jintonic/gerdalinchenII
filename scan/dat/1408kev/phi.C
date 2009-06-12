@@ -65,16 +65,17 @@ void pre(Int_t theAngle=0)         // a preliminary selection
 
       PSTree.GetEntry(i);
 
-      Int_t NfiredSeg = 0, firedSegID = 0, EnergyThreshold = 1;
+      Int_t NfiredSeg = 0, firedSegID = 0, EnergyThreshold = 2500;
       for (Int_t j=1; j<Ncha-1; j++) {
          if (Cha_MCAEnergy[j]>EnergyThreshold) {
             NfiredSeg++;
 	    firedSegID=j;
          }
       }
-      	 if (firedSegID==13 || firedSegID==14 || firedSegID==15)
-	    if (Cha_MCAEnergy[firedSegID]<26000) // no high energy photons
-	       if (Cha_MCAEnergy[firedSegID]>14000) // no low energy photons
+      if (NfiredSeg==1) // single segment event
+	 if (firedSegID==13 || firedSegID==14 || firedSegID==15)
+	    if (Cha_MCAEnergy[firedSegID]<50000) // no high energy photons
+	       if (Cha_MCAEnergy[firedSegID]>30000) // no low energy photons
 		  newtree->Fill();
    }
    
@@ -82,7 +83,6 @@ void pre(Int_t theAngle=0)         // a preliminary selection
    fout.Close();
    cout<<"processing scan data at "<<theAngle<<" degree finished."<<endl;
 }
-
 //=============================================================================
 
 void phi(Int_t theAngle=0)
