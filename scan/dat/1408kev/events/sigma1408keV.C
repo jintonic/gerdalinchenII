@@ -1,0 +1,162 @@
+{
+//=========Macro generated from canvas: c1/c1
+//=========  (Fri Jun 12 15:55:07 2009) by ROOT version5.22/00
+   TCanvas *c1 = new TCanvas("c1", "c1",401,143,700,502);
+   c1->Range(-10.9375,-7.250002,105.9375,361.25);
+   c1->SetFillColor(0);
+   c1->SetBorderSize(2);
+   c1->SetGridx();
+   c1->SetFrameFillColor(19);
+   c1->SetFrameFillColor(19);
+   
+   TMultiGraph *multigraph = new TMultiGraph();
+   multigraph->SetName("");
+   multigraph->SetTitle("");
+   
+   TGraph *graph = new TGraph(18);
+   graph->SetName("Graph");
+   graph->SetTitle("seg13");
+   graph->SetFillColor(1);
+   graph->SetLineColor(19);
+   graph->SetMarkerColor(2);
+   graph->SetMarkerStyle(20);
+   graph->SetPoint(0,4.847341,125.4725);
+   graph->SetPoint(1,10,154);
+   graph->SetPoint(2,15,154);
+   graph->SetPoint(3,20,152);
+   graph->SetPoint(4,25,109);
+   graph->SetPoint(5,30,43);
+   graph->SetPoint(6,35,64);
+   graph->SetPoint(7,40,57);
+   graph->SetPoint(8,45,55);
+   graph->SetPoint(9,50,50);
+   graph->SetPoint(10,55,61);
+   graph->SetPoint(11,59.92637,136.4025);
+   graph->SetPoint(12,64.96408,135.6218);
+   graph->SetPoint(13,70,159);
+   graph->SetPoint(14,75,140);
+   graph->SetPoint(15,80,145);
+   graph->SetPoint(16,85,136);
+   graph->SetPoint(17,90,150);
+   
+   TH1 *Graph1 = new TH1F("Graph1","seg13",100,0,98.5);
+   Graph1->SetMinimum(31.4);
+   Graph1->SetMaximum(170.6);
+   Graph1->SetDirectory(0);
+   Graph1->SetStats(0);
+   graph->SetHistogram(Graph1);
+   
+   multigraph->Add(graph,"lp");
+   
+   graph = new TGraph(18);
+   graph->SetName("Graph");
+   graph->SetTitle("seg14");
+   graph->SetFillColor(1);
+   graph->SetLineColor(19);
+   graph->SetMarkerColor(3);
+   graph->SetMarkerStyle(20);
+   graph->SetPoint(0,5.015265,146.5519);
+   graph->SetPoint(1,10.05298,137.1833);
+   graph->SetPoint(2,15.0907,190.2722);
+   graph->SetPoint(3,20.12841,157.482);
+   graph->SetPoint(4,25.16613,105.1737);
+   graph->SetPoint(5,30.03592,54.42691);
+   graph->SetPoint(6,35.07363,59.11123);
+   graph->SetPoint(7,40.11135,62.23411);
+   graph->SetPoint(8,45.14907,52.08474);
+   graph->SetPoint(9,50.01886,55.20763);
+   graph->SetPoint(10,55.05657,59.11123);
+   graph->SetPoint(11,60.09429,158.2627);
+   graph->SetPoint(12,65.132,136.4025);
+   graph->SetPoint(13,70.0018,137.1833);
+   graph->SetPoint(14,75.03951,138.7447);
+   graph->SetPoint(15,80.07723,133.2797);
+   graph->SetPoint(16,85.11494,136.4025);
+   graph->SetPoint(17,90.15266,143.429);
+   
+   TH1 *Graph2 = new TH1F("Graph2","seg14",100,0,98.5);
+   Graph2->SetMinimum(38.2);
+   Graph2->SetMaximum(203.8);
+   Graph2->SetDirectory(0);
+   Graph2->SetStats(0);
+   graph->SetHistogram(Graph2);
+   
+   multigraph->Add(graph,"cp");
+   
+   graph = new TGraph(18);
+   graph->SetName("Graph");
+   graph->SetTitle("seg15");
+   graph->SetFillColor(1);
+   graph->SetLineColor(19);
+   graph->SetMarkerColor(4);
+   graph->SetMarkerStyle(20);
+   graph->SetPoint(0,4.847341,152.0169);
+   graph->SetPoint(1,9.885057,130.1568);
+   graph->SetPoint(2,14.92277,179.3422);
+   graph->SetPoint(3,19.96049,172.3157);
+   graph->SetPoint(4,24.9982,108.2966);
+   graph->SetPoint(5,29.868,57.54979);
+   graph->SetPoint(6,34.90571,53.64619);
+   graph->SetPoint(7,39.94343,50.5233);
+   graph->SetPoint(8,44.98114,46.6197);
+   graph->SetPoint(9,49.85093,57.54979);
+   graph->SetPoint(10,54.88865,47.40042);
+   graph->SetPoint(11,59.92637,158.2627);
+   graph->SetPoint(12,64.96408,148.1133);
+   graph->SetPoint(13,69.83387,150.4555);
+   graph->SetPoint(14,74.87159,158.2627);
+   graph->SetPoint(15,79.9093,222);
+   graph->SetPoint(16,84.94702,170.7542);
+   graph->SetPoint(17,89.98473,249.607);
+   
+   TH1 *Graph3 = new TH1F("Graph3","seg15",100,0,98.5);
+   Graph3->SetMinimum(19.5);
+   Graph3->SetMaximum(337.5);
+   Graph3->SetDirectory(0);
+   Graph3->SetStats(0);
+   graph->SetHistogram(Graph3);
+   
+   multigraph->Add(graph,"cp");
+   multigraph->Draw("a");
+   multigraph->GetXaxis()->SetTitle("angle [degrees]");
+   multigraph->GetYaxis()->SetTitle("FWHM [ADC counts]");
+   
+   TLegend *leg = new TLegend(0.375,0.7542373,0.579023,0.9682203,NULL,"brNDC");
+   leg->SetTextFont(62);
+   leg->SetLineColor(1);
+   leg->SetLineStyle(1);
+   leg->SetLineWidth(1);
+   leg->SetFillColor(19);
+   leg->SetFillStyle(1001);
+   TLegendEntry *entry=leg->AddEntry("Graph","seg13","lpf");
+   entry->SetFillColor(1);
+   entry->SetFillStyle(1001);
+   entry->SetLineColor(19);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(1);
+   entry->SetMarkerColor(2);
+   entry->SetMarkerStyle(20);
+   entry->SetMarkerSize(1);
+   entry=leg->AddEntry("Graph","seg14","lpf");
+   entry->SetFillColor(1);
+   entry->SetFillStyle(1001);
+   entry->SetLineColor(19);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(1);
+   entry->SetMarkerColor(3);
+   entry->SetMarkerStyle(20);
+   entry->SetMarkerSize(1);
+   entry=leg->AddEntry("Graph","seg15","lpf");
+   entry->SetFillColor(1);
+   entry->SetFillStyle(1001);
+   entry->SetLineColor(19);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(1);
+   entry->SetMarkerColor(4);
+   entry->SetMarkerStyle(20);
+   entry->SetMarkerSize(1);
+   leg->Draw();
+   c1->Modified();
+   c1->cd();
+   c1->SetSelected(c1);
+}
