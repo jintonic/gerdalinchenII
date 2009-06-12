@@ -25,7 +25,7 @@ void fit(Int_t theAngle=0)
    A0Tree->AddFile(Form("/remote/pclg-10/aghaei/scan/dat/1408kev/phi%d.root",theAngle));
 
    cc1->cd(1);
-   A0Tree->Draw("Cha_MCAEnergy[0]>>hdat0(400,34700.0,35900.0)");
+   A0Tree->Draw("Cha_MCAEnergy[0]>>hdat0(150,34700.0,35900.0)");
    TF1 *FitFcn0 = new TF1("FitFcn0","[0]*gausn(1)");
    FitFcn0->SetParNames("bin width","events","mean","sigma");
 
@@ -44,7 +44,7 @@ void fit(Int_t theAngle=0)
    A13Tree->AddFile(Form("/remote/pclg-10/aghaei/scan/dat/1408kev/phi%d.root",theAngle));
 
    cc1->cd(2);
-   A13Tree->Draw("Cha_MCAEnergy[13]>>hdat13(400,39300.0,40700.0)");
+   A13Tree->Draw("Cha_MCAEnergy[13]>>hdat13(150,39300.0,41100.0)");
    TF1 *FitFcn13 = new TF1("FitFcn13","[0]*gausn(1)");
    FitFcn13->SetParNames("bin width","events","mean","sigma");
 
@@ -63,7 +63,7 @@ void fit(Int_t theAngle=0)
    A14Tree->AddFile(Form("/remote/pclg-10/aghaei/scan/dat/1408kev/phi%d.root",theAngle));
 
    cc1->cd(3);
-   A14Tree->Draw("Cha_MCAEnergy[14]>>hdat14(400,43500.0,45000.0)");
+   A14Tree->Draw("Cha_MCAEnergy[14]>>hdat14(150,43500.0,45000.0)");
    TF1 *FitFcn14 = new TF1("FitFcn14","[0]*gausn(1)");
    FitFcn14->SetParNames("bin width","events","mean","sigma");
 
